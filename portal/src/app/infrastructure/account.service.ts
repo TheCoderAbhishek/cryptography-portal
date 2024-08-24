@@ -4,11 +4,11 @@ import axios from 'axios';
 
 // Adjust the interface to match your backend API models
 interface LoginResponse {
-  // ... properties of the login response from the backend
+  // Define properties based on the backend's response structure
 }
 
 interface RegisterRequest {
-  // ... properties for registering a new user
+  // Define properties for registering a new user
 }
 
 @Injectable({
@@ -23,13 +23,17 @@ export class AccountService {
     // Using Axios for the login request
     return new Observable<LoginResponse>((observer) => {
       axios
-        .post<LoginResponse>(`${this.apiUrl}/LoginUserAsync`, credentials)
+        .post<LoginResponse>(`${this.apiUrl}LoginUserAsync`, credentials)
         .then((response) => {
-          observer.next(response.data);
-          observer.complete();
+          observer.next(response.data); // Pass the data to the observer
+          observer.complete(); // Complete the observable
         })
         .catch((error) => {
-          observer.error(error);
+          console.error(
+            'Error during login:',
+            error.response ? error.response.data : error.message
+          ); // Improved error logging
+          observer.error(error); // Pass the error to the observer
         });
     });
   }
@@ -38,13 +42,17 @@ export class AccountService {
     // Using Axios for the registration request
     return new Observable<any>((observer) => {
       axios
-        .post<any>(`${this.apiUrl}/register`, user)
+        .post<any>(`${this.apiUrl}register`, user)
         .then((response) => {
-          observer.next(response.data);
-          observer.complete();
+          observer.next(response.data); // Pass the data to the observer
+          observer.complete(); // Complete the observable
         })
         .catch((error) => {
-          observer.error(error);
+          console.error(
+            'Error during registration:',
+            error.response ? error.response.data : error.message
+          ); // Improved error logging
+          observer.error(error); // Pass the error to the observer
         });
     });
   }

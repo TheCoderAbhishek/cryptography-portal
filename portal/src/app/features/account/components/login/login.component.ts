@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../../infrastructure/account.service';
 
@@ -21,9 +26,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Updated form controls to match the backend DTO
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      userEmail: ['', [Validators.required, Validators.email]], // Changed 'email' to 'userEmail'
+      userPassword: ['', [Validators.required]], // Changed 'password' to 'userPassword'
     });
   }
 
