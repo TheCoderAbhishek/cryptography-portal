@@ -1,0 +1,14 @@
+Project:
+cryptography-portal
+
+
+Framework:
+Angular 18
+
+
+Design Framework:
+Tailwind CSS
+
+
+Command to generate a Angular Service:
+ng generate service infrastructure/account --skip-tests
