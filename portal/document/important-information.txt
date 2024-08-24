@@ -12,3 +12,7 @@ Tailwind CSS
 
 Command to generate a Angular Service:
 ng generate service infrastructure/account --skip-tests
+
+
+Command to generate a Angular Component:
+ng generate component features/account/components/login
