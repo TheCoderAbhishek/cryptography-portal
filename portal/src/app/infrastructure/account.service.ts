@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import axios from 'axios';
+import JSEncrypt from 'jsencrypt';
+import { from } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 // Adjust the interface to match your backend API models
 interface LoginResponse {
   // Define properties based on the backend's response structure
-}
-
-interface RegisterRequest {
-  // Define properties for registering a new user
 }
 
 @Injectable({
@@ -19,41 +18,71 @@ export class AccountService {
 
   constructor() {}
 
-  login(credentials: any): Observable<LoginResponse> {
-    // Using Axios for the login request
-    return new Observable<LoginResponse>((observer) => {
-      axios
-        .post<LoginResponse>(`${this.apiUrl}LoginUserAsync`, credentials)
-        .then((response) => {
-          observer.next(response.data); // Pass the data to the observer
-          observer.complete(); // Complete the observable
-        })
-        .catch((error) => {
+  getRsaPublicKey(): Observable<string> {
+    return from(axios.get<any>(`${this.apiUrl}GenerateRsaKeyPairAsync`)) // Use 'any' for flexibility
+      .pipe(
+        map((response) => {
+          if (response.data && response.data.returnValue) {
+            return response.data.returnValue as string; // Extract and cast to string
+          } else {
+            throw new Error('Public key not found in API response');
+          }
+        }),
+        catchError((error) => {
           console.error(
-            'Error during login:',
+            'Error getting RSA public key:',
             error.response ? error.response.data : error.message
-          ); // Improved error logging
-          observer.error(error); // Pass the error to the observer
-        });
+          );
+          throw error;
+        })
+      );
+  }
+
+  login(credentials: any): Observable<LoginResponse> {
+    return new Observable<LoginResponse>((observer) => {
+      this.getRsaPublicKey().subscribe(
+        (publicKey) => {
+          // Encrypt the password using the public key
+          const encryptedPassword = this.encryptPassword(
+            credentials.userPassword,
+            publicKey
+          );
+
+          // Replace the plain text password with the encrypted one
+          credentials.userPassword = encryptedPassword;
+
+          // Make the login request
+          axios
+            .post<LoginResponse>(`${this.apiUrl}LoginUserAsync`, credentials)
+            .then((response) => {
+              observer.next(response.data);
+              observer.complete();
+            })
+            .catch((error) => {
+              console.error(
+                'Error during login:',
+                error.response ? error.response.data : error.message
+              );
+              observer.error(error);
+            });
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
     });
   }
 
-  register(user: RegisterRequest): Observable<any> {
-    // Using Axios for the registration request
-    return new Observable<any>((observer) => {
-      axios
-        .post<any>(`${this.apiUrl}register`, user)
-        .then((response) => {
-          observer.next(response.data); // Pass the data to the observer
-          observer.complete(); // Complete the observable
-        })
-        .catch((error) => {
-          console.error(
-            'Error during registration:',
-            error.response ? error.response.data : error.message
-          ); // Improved error logging
-          observer.error(error); // Pass the error to the observer
-        });
-    });
+  // Method to encrypt the password
+  private encryptPassword(password: string, publicKey: string): string {
+    const jsEncrypt = new JSEncrypt();
+    jsEncrypt.setPublicKey(publicKey);
+    const encryptedPassword = jsEncrypt.encrypt(password);
+
+    if (encryptedPassword === false) {
+      throw new Error('Password encryption failed');
+    }
+
+    return encryptedPassword;
   }
 }
