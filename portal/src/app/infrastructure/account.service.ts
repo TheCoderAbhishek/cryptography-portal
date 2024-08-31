@@ -79,7 +79,7 @@ export class AccountService {
     jsEncrypt.setPublicKey(publicKey);
     const encryptedPassword = jsEncrypt.encrypt(password);
 
-    if (encryptedPassword === false) {
+    if (!encryptedPassword) {
       throw new Error('Password encryption failed');
     }
 
