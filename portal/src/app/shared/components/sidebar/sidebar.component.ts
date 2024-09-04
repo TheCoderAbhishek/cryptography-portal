@@ -9,6 +9,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
+  @Input() collapsed = false;
+
   isDropdownOpen: { [key: string]: boolean } = {
     profile: false,
   };

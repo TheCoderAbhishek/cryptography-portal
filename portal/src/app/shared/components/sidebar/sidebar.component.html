@@ -1,5 +1,6 @@
-<aside class="w-64 bg-white h-screen">
-  <div class="p-4">
+<aside [class.w-20]="collapsed" class="bg-white h-screen">
+  <div class="p-4" *ngIf="!collapsed">
+    <!-- Expanded Sidebar Content -->
     <div>
       <a href="#" class="-m-1.5 p-1.5">
         <span class="sr-only">Your Company</span>
@@ -79,6 +80,44 @@
         >
           <i class="fa fa-sign-out-alt text-indigo-600 w-5"></i>
           <span class="ml-3">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Collapsed Sidebar Content -->
+  <div class="p-4" *ngIf="collapsed">
+    <ul class="space-y-4 text-sm font-semibold">
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-home text-indigo-600 w-5"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-user text-indigo-600 w-5"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-envelope text-indigo-600 w-5"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-sign-out-alt text-indigo-600 w-5"></i>
         </a>
       </li>
     </ul>
