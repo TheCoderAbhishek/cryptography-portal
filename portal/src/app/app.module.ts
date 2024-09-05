@@ -6,7 +6,12 @@ import { routes } from './app.routes';
 
 @NgModule({
   declarations: [],
-  imports: [BrowserModule, ReactiveFormsModule, RouterModule.forRoot(routes)],
+  imports: [
+    ReactiveFormsModule,
+    BrowserModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes),
+  ],
   providers: [],
   bootstrap: [],
 })
