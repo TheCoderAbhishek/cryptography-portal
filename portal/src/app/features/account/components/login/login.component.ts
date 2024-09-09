@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { LoginService } from './services/login-service.service';
 import { NgClass } from '@angular/common';
+import { LoaderService } from '../../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,11 @@ export class LoginComponent implements OnInit {
   loginError: string | null = null;
   isPasswordVisible: boolean = false;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) {}
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService,
+    private loaderService: LoaderService
+  ) {}
 
   ngOnInit(): void {
     this.initializeLoginForm();
@@ -39,9 +44,16 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
+      this.loaderService.show();
       const credentials = this.loginForm.value;
       this.loginService.login(credentials).subscribe({
-        error: (error) => (this.loginError = 'Invalid email or password.'),
+        next: (response) => {
+          this.loaderService.hide();
+        },
+        error: (error) => {
+          this.loaderService.hide();
+          this.loginError = 'Invalid email or password.';
+        },
       });
     } else {
       console.log('Form is invalid');
