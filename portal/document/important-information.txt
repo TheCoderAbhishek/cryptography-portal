@@ -16,3 +16,6 @@ ng generate service infrastructure/account --skip-tests
 
 Command to generate a Angular Component:
 ng generate component features/account/components/register
+
+
+ng generate service features/account/components/login/services/login-service --skip-tests

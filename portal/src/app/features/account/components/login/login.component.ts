@@ -5,8 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AccountService } from '../../../../infrastructure/account.service';
+import { LoginService } from './services/login-service.service';
 
 @Component({
   selector: 'app-login',
@@ -19,35 +18,24 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loginError: string | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private accountService: AccountService,
-    private router: Router
-  ) {}
+  constructor(private fb: FormBuilder, private loginService: LoginService) {}
 
   ngOnInit(): void {
-    // Updated form controls to match the backend DTO
+    this.initializeLoginForm();
+  }
+
+  private initializeLoginForm(): void {
     this.loginForm = this.fb.group({
-      userEmail: ['', [Validators.required, Validators.email]], // Changed 'email' to 'userEmail'
-      userPassword: ['', [Validators.required]], // Changed 'password' to 'userPassword'
+      userEmail: ['', [Validators.required, Validators.email]],
+      userPassword: ['', [Validators.required]],
     });
   }
 
-  onSubmit() {
-    console.log(this.loginForm.value);
-
+  onSubmit(): void {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
-
-      this.accountService.login(credentials).subscribe({
-        next: (response) => {
-          console.log('Login successful:', response);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (error) => {
-          this.loginError = 'Invalid email or password.';
-          console.error('Login failed:', error);
-        },
+      this.loginService.login(credentials).subscribe({
+        error: (error) => (this.loginError = 'Invalid email or password.'),
       });
     } else {
       console.log('Form is invalid');

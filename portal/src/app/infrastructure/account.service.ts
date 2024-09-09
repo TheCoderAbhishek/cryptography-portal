@@ -4,38 +4,37 @@ import axios from 'axios';
 import JSEncrypt from 'jsencrypt';
 import { from } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../environment/environment';
 
-// Adjust the interface to match your backend API models
 interface LoginResponse {
-  // Define properties based on the backend's response structure
+  token: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  private apiUrl = 'https://localhost:44349/api/Account/';
+  private apiUrl = `${environment.apiBaseUrl}/Account/`;
 
   constructor() {}
 
   getRsaPublicKey(): Observable<string> {
-    return from(axios.get<any>(`${this.apiUrl}GenerateRsaKeyPairAsync`)) // Use 'any' for flexibility
-      .pipe(
-        map((response) => {
-          if (response.data && response.data.returnValue) {
-            return response.data.returnValue as string; // Extract and cast to string
-          } else {
-            throw new Error('Public key not found in API response');
-          }
-        }),
-        catchError((error) => {
-          console.error(
-            'Error getting RSA public key:',
-            error.response ? error.response.data : error.message
-          );
-          throw error;
-        })
-      );
+    return from(axios.get<any>(`${this.apiUrl}GenerateRsaKeyPairAsync`)).pipe(
+      map((response) => {
+        if (response.data && response.data.returnValue) {
+          return response.data.returnValue as string;
+        } else {
+          throw new Error('Public key not found in API response');
+        }
+      }),
+      catchError((error) => {
+        console.error(
+          'Error getting RSA public key:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
   }
 
   login(credentials: any): Observable<LoginResponse> {
