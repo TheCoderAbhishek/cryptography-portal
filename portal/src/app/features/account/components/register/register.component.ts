@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -9,12 +10,14 @@ import {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   registerForm!: FormGroup;
+  isPasswordVisible: boolean = false;
+  isConfirmPasswordVisible: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -26,6 +29,14 @@ export class RegisterComponent {
       userPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 
   onSubmit(): void {

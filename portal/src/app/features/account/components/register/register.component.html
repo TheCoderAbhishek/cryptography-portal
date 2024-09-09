@@ -30,6 +30,7 @@
               formControlName="name"
               required
               placeholder="Name"
+              autocomplete="name"
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
           </div>
@@ -46,6 +47,7 @@
               formControlName="username"
               required
               placeholder="Username"
+              autocomplete="username"
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
           </div>
@@ -77,15 +79,23 @@
           >
             Password
           </label>
-          <div class="mt-1">
+          <div class="mt-1 relative">
             <input
               id="userPassword"
-              type="password"
+              [type]="isPasswordVisible ? 'text' : 'password'"
               formControlName="userPassword"
               required
               placeholder="Password"
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
+            <i
+              class="fa-solid"
+              [ngClass]="
+                isPasswordVisible ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
+              "
+              (click)="togglePasswordVisibility()"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+            ></i>
           </div>
         </div>
 
@@ -96,15 +106,25 @@
           >
             Confirm Password
           </label>
-          <div class="mt-1">
+          <div class="mt-1 relative">
             <input
               id="confirmPassword"
-              type="password"
+              [type]="isConfirmPasswordVisible ? 'text' : 'password'"
               formControlName="confirmPassword"
               required
               placeholder="Confirm Password"
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
+            <i
+              class="fa-solid"
+              [ngClass]="
+                isConfirmPasswordVisible
+                  ? 'fa-solid fa-eye-slash'
+                  : 'fa-solid fa-eye'
+              "
+              (click)="toggleConfirmPasswordVisibility()"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+            ></i>
           </div>
         </div>
 

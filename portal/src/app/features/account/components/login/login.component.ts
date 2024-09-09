@@ -6,17 +6,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { LoginService } from './services/login-service.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loginError: string | null = null;
+  isPasswordVisible: boolean = false;
 
   constructor(private fb: FormBuilder, private loginService: LoginService) {}
 
@@ -29,6 +31,10 @@ export class LoginComponent implements OnInit {
       userEmail: ['', [Validators.required, Validators.email]],
       userPassword: ['', [Validators.required]],
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   onSubmit(): void {
