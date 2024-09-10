@@ -10,6 +10,8 @@ interface LoginResponse {
   token: string;
 }
 
+interface RegisterResponse {}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,6 +55,41 @@ export class AccountService {
           // Make the login request
           axios
             .post<LoginResponse>(`${this.apiUrl}LoginUserAsync`, credentials)
+            .then((response) => {
+              observer.next(response.data);
+              observer.complete();
+            })
+            .catch((error) => {
+              console.error(
+                'Error during login:',
+                error.response ? error.response.data : error.message
+              );
+              observer.error(error);
+            });
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
+  }
+
+  register(userData: any): Observable<RegisterResponse> {
+    return new Observable<RegisterResponse>((observer) => {
+      this.getRsaPublicKey().subscribe(
+        (publicKey) => {
+          // Encrypt the password using the public key
+          const encryptedPassword = this.encryptPassword(
+            userData.password,
+            publicKey
+          );
+
+          // Replace the plain text password with the encrypted one
+          userData.password = encryptedPassword;
+
+          // Make the login request
+          axios
+            .post<LoginResponse>(`${this.apiUrl}AddUserAsync`, userData)
             .then((response) => {
               observer.next(response.data);
               observer.complete();

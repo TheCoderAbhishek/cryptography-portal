@@ -18,4 +18,4 @@ Command to generate a Angular Component:
 ng generate component shared/components/loader
 
 
-ng generate service shared/services/loader --skip-tests
+ng generate service features/account/components/register/services/register-service --skip-tests
