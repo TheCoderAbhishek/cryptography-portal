@@ -1,0 +1,125 @@
+<aside [class.w-20]="collapsed" class="bg-white h-screen shadow-lg">
+  <div class="p-4" *ngIf="!collapsed">
+    <!-- Expanded Sidebar Content -->
+    <div>
+      <a href="/dashboard" class="-m-1.5 p-1.5">
+        <span class="sr-only">Your Company</span>
+        <img
+          class="h-8 w-auto"
+          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+          alt=""
+        />
+      </a>
+    </div>
+    <ul class="space-y-4 text-sm font-semibold">
+      <!-- Dashboard -->
+      <li>
+        <a
+          href="/dashboard"
+          class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-home text-indigo-600 w-5"></i>
+          <span class="ml-3">Home</span>
+        </a>
+      </li>
+
+      <!-- Profile with Sub-menu -->
+      <li>
+        <button
+          (click)="toggleDropdown('profile')"
+          class="flex items-center justify-between p-2 w-full text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <div class="flex items-center">
+            <i class="fa fa-user text-indigo-600 w-5"></i>
+            <span class="ml-3">Profile</span>
+          </div>
+          <i
+            [ngClass]="{
+              'fa-chevron-down': !isDropdownOpen['profile'],
+              'fa-chevron-up': isDropdownOpen['profile']
+            }"
+            class="fa text-gray-700 w-4"
+          ></i>
+        </button>
+        <ul *ngIf="isDropdownOpen['profile']" class="space-y-2 pl-6 mt-2">
+          <li>
+            <a
+              href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+            >
+              <i class="fa fa-cog text-indigo-600 w-5"></i>
+              <span class="ml-3">Settings</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+            >
+              <i class="fa fa-lock text-indigo-600 w-5"></i>
+              <span class="ml-3">Security</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Other links -->
+      <li>
+        <a
+          href="#"
+          class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-envelope text-indigo-600 w-5"></i>
+          <span class="ml-3">Messages</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-sign-out-alt text-indigo-600 w-5"></i>
+          <span class="ml-3">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Collapsed Sidebar Content -->
+  <div class="p-4" *ngIf="collapsed">
+    <ul class="space-y-4 text-sm font-semibold">
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-home text-indigo-600 w-5"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-user text-indigo-600 w-5"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-envelope text-indigo-600 w-5"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <i class="fa fa-sign-out-alt text-indigo-600 w-5"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

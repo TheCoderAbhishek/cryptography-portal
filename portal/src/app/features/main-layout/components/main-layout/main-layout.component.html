@@ -1,0 +1,38 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div
+    [class.w-20]="isSidebarCollapsed"
+    [class.w-60]="!isSidebarCollapsed"
+    class="relative bg-gray-200"
+  >
+    <app-sidebar [collapsed]="isSidebarCollapsed"></app-sidebar>
+
+    <!-- Toggle Button (Between Sidebar and Navbar) -->
+    <button
+      class="absolute top-1/2 right-0 transform -translate-y-1/2 p-2 bg-white text-indigo-600"
+      (click)="toggleSidebar()"
+    >
+      <i
+        class="fa"
+        [ngClass]="{
+          'fa-circle-chevron-left': !isSidebarCollapsed,
+          'fa-circle-chevron-right': isSidebarCollapsed
+        }"
+      ></i>
+    </button>
+  </div>
+
+  <!-- Right Side Content (Navbar + Content Area + Footer) -->
+  <div class="flex flex-col flex-1">
+    <!-- Navbar -->
+    <app-navbar></app-navbar>
+
+    <!-- Content Area -->
+    <div class="flex-1 p-4 overflow-auto">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- Footer -->
+    <!-- <app-footer></app-footer> -->
+  </div>
+</div>

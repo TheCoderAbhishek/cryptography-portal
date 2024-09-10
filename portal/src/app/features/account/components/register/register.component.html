@@ -1,0 +1,151 @@
+<div
+  class="flex min-h-screen flex-col justify-center px-4 py-12 sm:px-6 lg:px-8"
+>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img
+      class="mx-auto h-12 w-auto"
+      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+      alt="Your Company"
+    />
+    <h2 class="mt-6 text-center text-3xl tracking-tight text-gray-900">
+      Create your account
+    </h2>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form
+        class="space-y-6"
+        [formGroup]="registerForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">
+            Name
+          </label>
+          <div class="mt-1">
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              required
+              placeholder="Name"
+              autocomplete="name"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700">
+            Username
+          </label>
+          <div class="mt-1">
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              required
+              placeholder="Username"
+              autocomplete="username"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            for="userEmail"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Email address
+          </label>
+          <div class="mt-1">
+            <input
+              id="userEmail"
+              type="email"
+              formControlName="userEmail"
+              required
+              placeholder="Email"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            for="userPassword"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <div class="mt-1 relative">
+            <input
+              id="userPassword"
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              formControlName="userPassword"
+              required
+              placeholder="Password"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+            <i
+              class="fa-solid"
+              [ngClass]="
+                isPasswordVisible ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
+              "
+              (click)="togglePasswordVisibility()"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+            ></i>
+          </div>
+        </div>
+
+        <div>
+          <label
+            for="confirmPassword"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Confirm Password
+          </label>
+          <div class="mt-1 relative">
+            <input
+              id="confirmPassword"
+              [type]="isConfirmPasswordVisible ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              required
+              placeholder="Confirm Password"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+            <i
+              class="fa-solid"
+              [ngClass]="
+                isConfirmPasswordVisible
+                  ? 'fa-solid fa-eye-slash'
+                  : 'fa-solid fa-eye'
+              "
+              (click)="toggleConfirmPasswordVisibility()"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+            ></i>
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-6 text-center text-sm text-gray-600">
+        Already a member?
+        <a
+          href="/login"
+          class="font-medium text-indigo-600 hover:text-indigo-500"
+          >Sign in</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
