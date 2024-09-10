@@ -20,6 +20,13 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loginError: string | null = null;
   isPasswordVisible: boolean = false;
+  passwordValidation = {
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    specialChar: false,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -29,12 +36,26 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeLoginForm();
+    this.onPasswordChanges();
   }
 
   private initializeLoginForm(): void {
     this.loginForm = this.fb.group({
       userEmail: ['', [Validators.required, Validators.email]],
       userPassword: ['', [Validators.required]],
+    });
+  }
+
+  onPasswordChanges(): void {
+    this.loginForm.get('userPassword')?.valueChanges.subscribe((password) => {
+      this.passwordValidation.length =
+        password.length >= 8 && password.length <= 20;
+      this.passwordValidation.uppercase = /[A-Z]/.test(password);
+      this.passwordValidation.lowercase = /[a-z]/.test(password);
+      this.passwordValidation.number = /\d/.test(password);
+      this.passwordValidation.specialChar = /[!@#$%^&*(),.?":{}|<>]/.test(
+        password
+      );
     });
   }
 
