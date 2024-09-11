@@ -26,9 +26,20 @@ export class OtpGenerateService {
     });
   }
 
+  // Method to handle navigation to OTP Verify Component
+  navigateToOtpVerify(email: string): void {
+    // Base64 encode the email
+    const encodedEmail = btoa(email);
+
+    // Navigate to OTP verify page with Base64 encoded email
+    this.router.navigate(['/otp-verify'], {
+      queryParams: { email: encodedEmail },
+    });
+  }
+
   // Handle OTP Generation success
   private handleOtpGenerateSuccess(response: any): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/otp-verify']);
   }
 
   // Handle OTP Generation error

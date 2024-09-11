@@ -73,6 +73,7 @@ export class OtpGenerateComponent {
           this.loaderService.hide();
           alert(response.successMessage);
           console.log(response);
+          this.otpGenerateService.navigateToOtpVerify(this.emailForm.value.email);
         } else {
           this.loaderService.hide();
           alert(response.errorMessage);
