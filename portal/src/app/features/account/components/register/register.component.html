@@ -70,6 +70,17 @@
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
           </div>
+
+          <!-- Email Validation Messages -->
+          <div class="mt-2 text-sm">
+            <p *ngIf="emailErrorMessage === 'empty'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Please enter your email address.
+            </p>
+            <p *ngIf="emailErrorMessage === 'invalid'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Please enter a valid email
+              address.
+            </p>
+          </div>
         </div>
 
         <div>
@@ -96,6 +107,18 @@
               (click)="togglePasswordVisibility()"
               class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
             ></i>
+          </div>
+
+          <!-- Password Validation Messages -->
+          <div class="mt-2 text-sm">
+            <p *ngIf="passwordErrorMessage === 'empty'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Please enter your password.
+            </p>
+            <p *ngIf="passwordErrorMessage === 'invalid'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Password must contains atleast
+              one capital letter, one lowercase letter, one number, and one
+              special character.
+            </p>
           </div>
         </div>
 
@@ -125,6 +148,23 @@
               (click)="toggleConfirmPasswordVisibility()"
               class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
             ></i>
+          </div>
+
+          <!-- Confirm Password Validation Messages -->
+          <div class="mt-2 text-sm">
+            <p
+              *ngIf="confirmPasswordErrorMessage === 'empty'"
+              class="text-red-500"
+            >
+              <i class="fa-solid fa-xmark"></i> Please confirm your password.
+            </p>
+            <p
+              *ngIf="confirmPasswordErrorMessage === 'mismatch'"
+              class="text-red-500"
+            >
+              <i class="fa-solid fa-xmark"></i> Password and confirm password do
+              not match.
+            </p>
           </div>
         </div>
 

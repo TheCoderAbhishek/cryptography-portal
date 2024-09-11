@@ -1,17 +1,31 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import { RegisterService } from './services/register-service.service';
+
+// Custom validator to check if password and confirmPassword match
+function passwordMatchValidator(
+  control: AbstractControl
+): { [key: string]: boolean } | null {
+  const password = control.get('userPassword')?.value;
+  const confirmPassword = control.get('confirmPassword')?.value;
+
+  console.log('Password:', password);
+  console.log('Confirm Password:', confirmPassword);
+
+  return password === confirmPassword ? null : { mismatch: true };
+}
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule, NgClass, NgIf],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -19,6 +33,16 @@ export class RegisterComponent {
   registerForm!: FormGroup;
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
+  emailErrorMessage: string | null = null;
+  passwordErrorMessage: string | null = null;
+  confirmPasswordErrorMessage: string | null = null;
+  passwordValidation = {
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    specialChar: false,
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,24 +50,33 @@ export class RegisterComponent {
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      username: ['', Validators.required],
-      userEmail: ['', [Validators.required, Validators.email]],
-      userPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-    });
-  }
-
-  togglePasswordVisibility(): void {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
-
-  toggleConfirmPasswordVisibility(): void {
-    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
+    this.registerForm = this.formBuilder.group(
+      {
+        name: ['', Validators.required],
+        username: ['', Validators.required],
+        userEmail: ['', [Validators.required, Validators.email]],
+        userPassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(20),
+          ],
+        ],
+        confirmPassword: ['', Validators.required],
+      },
+      { validators: passwordMatchValidator }
+    );
+    this.onEmailChanges();
+    this.onPasswordChanges();
+    this.onConfirmPasswordChanges();
   }
 
   onSubmit(): void {
+    this.checkEmailValidity();
+    this.checkPasswordValidity();
+    this.checkConfirmPasswordValidity();
+
     if (this.registerForm.valid) {
       const userData = {
         name: this.registerForm.value.name,
@@ -60,6 +93,81 @@ export class RegisterComponent {
           console.error('Registration error:', error);
         },
       });
+    }
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
+  }
+
+  onEmailChanges(): void {
+    this.registerForm.get('userEmail')?.valueChanges.subscribe(() => {
+      this.checkEmailValidity();
+    });
+  }
+
+  checkEmailValidity(): void {
+    const emailControl = this.registerForm.get('userEmail');
+    if (emailControl?.hasError('required')) {
+      this.emailErrorMessage = 'empty';
+    } else if (emailControl?.hasError('email')) {
+      this.emailErrorMessage = 'invalid';
+    } else {
+      this.emailErrorMessage = null;
+    }
+  }
+
+  onPasswordChanges(): void {
+    this.registerForm.get('userPassword')?.valueChanges.subscribe(() => {
+      this.checkPasswordValidity();
+    });
+  }
+
+  checkPasswordValidity(): void {
+    const passwordControl = this.registerForm.get('userPassword');
+    const passwordValue = passwordControl?.value;
+
+    this.passwordValidation = {
+      length: passwordValue.length >= 8 && passwordValue.length <= 20,
+      uppercase: /[A-Z]/.test(passwordValue),
+      lowercase: /[a-z]/.test(passwordValue),
+      number: /\d/.test(passwordValue),
+      specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(passwordValue),
+    };
+
+    if (
+      this.passwordValidation.length &&
+      this.passwordValidation.uppercase &&
+      this.passwordValidation.lowercase &&
+      this.passwordValidation.number &&
+      this.passwordValidation.specialChar
+    ) {
+      this.passwordErrorMessage = null;
+    } else {
+      this.passwordErrorMessage = 'invalid';
+    }
+  }
+
+  onConfirmPasswordChanges(): void {
+    this.registerForm.get('confirmPassword')?.valueChanges.subscribe(() => {
+      this.checkConfirmPasswordValidity();
+    });
+  }
+
+  checkConfirmPasswordValidity(): void {
+    const confirmPasswordControl = this.registerForm.get('confirmPassword');
+    console.log('Confirm Password Errors:', confirmPasswordControl?.errors);
+
+    if (confirmPasswordControl?.hasError('required')) {
+      this.confirmPasswordErrorMessage = 'empty';
+    } else if (this.registerForm.hasError('mismatch')) {
+      this.confirmPasswordErrorMessage = 'mismatch';
+    } else {
+      this.confirmPasswordErrorMessage = null;
     }
   }
 }
