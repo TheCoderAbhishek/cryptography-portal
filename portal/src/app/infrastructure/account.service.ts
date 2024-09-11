@@ -14,6 +14,8 @@ interface RegisterResponse {}
 
 interface OtpResponse {}
 
+interface OtpVerifyResponse {}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -116,6 +118,24 @@ export class AccountService {
       axios.put<OtpResponse>(
         `${this.apiUrl}OtpGenerationRequestAsync`,
         otpRequestDto
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error during OTP generation:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  otpVerify(otpVerifyRequestDto: any): Observable<OtpVerifyResponse> {
+    return from(
+      axios.patch<OtpVerifyResponse>(
+        `${this.apiUrl}VerifyOtpRequestAsync`,
+        otpVerifyRequestDto
       )
     ).pipe(
       map((response) => response.data),

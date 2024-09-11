@@ -8,6 +8,7 @@ import {
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { OtpVerifyService } from './services/otp-verify.service';
 
 @Component({
   selector: 'app-otp-verify',
@@ -24,7 +25,8 @@ export class OtpVerifyComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loaderService: LoaderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private otpVerifyService: OtpVerifyService
   ) {
     this.otpForm = this.fb.group({
       email: [{ value: '', disabled: true }, Validators.required],
@@ -67,21 +69,31 @@ export class OtpVerifyComponent implements OnInit {
 
   onSubmit() {
     this.checkOtpValidity();
-
     if (this.otpForm.invalid) {
       return;
     }
-
     this.loaderService.show();
-
-    // Assuming you handle the OTP verification logic here
     const otpVerifyDto = {
       email: this.email,
       otp: this.otpForm.value.otp,
     };
-
     console.log(otpVerifyDto);
-
-    this.loaderService.hide();
+    this.otpVerifyService.otpVerify(otpVerifyDto).subscribe({
+      next: (response) => {
+        if (response.status === 0) {
+          this.loaderService.hide();
+          alert(response.successMessage);
+          console.log(response);
+        } else {
+          this.loaderService.hide();
+          alert(response.errorMessage);
+          console.log(response);
+        }
+      },
+      error: (error) => {
+        this.loaderService.hide();
+        console.log(error);
+      },
+    });
   }
 }

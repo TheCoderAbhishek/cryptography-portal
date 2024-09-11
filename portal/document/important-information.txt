@@ -25,3 +25,5 @@ ng generate component features/account/components/otp-verify
 ng generate service features/account/components/register/services/register-service --skip-tests
 
 ng generate service features/account/components/otp-generate/services/otp-generate --skip-tests
+
+ng generate service features/account/components/otp-verify/services/otp-verify --skip-tests
