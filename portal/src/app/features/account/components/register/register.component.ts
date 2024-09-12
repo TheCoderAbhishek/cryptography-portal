@@ -189,6 +189,8 @@ export class RegisterComponent {
       this.passwordValidation.specialChar
     ) {
       this.passwordErrorMessage = null;
+    } else if (passwordValue === '') {
+      this.passwordErrorMessage = 'empty';
     } else {
       this.passwordErrorMessage = 'invalid';
     }
