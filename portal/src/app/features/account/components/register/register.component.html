@@ -34,6 +34,13 @@
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
           </div>
+
+          <!-- Name Validation Messages -->
+          <div class="mt-2 text-sm">
+            <p *ngIf="nameErrorMessage === 'empty'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Please enter your name.
+            </p>
+          </div>
         </div>
 
         <div>
@@ -50,6 +57,21 @@
               autocomplete="username"
               class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             />
+          </div>
+
+          <!-- Username Validation Messages -->
+          <div class="mt-2 text-sm">
+            <p *ngIf="usernameErrorMessage === 'empty'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Please enter your username.
+            </p>
+            <p *ngIf="usernameErrorMessage === 'invalid'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Username only contains alphabets
+              and numbers. Special characters and spaces are not allowed.
+            </p>
+            <p *ngIf="usernameErrorMessage === 'length'" class="text-red-500">
+              <i class="fa-solid fa-xmark"></i> Username should be 8 to 20
+              characters long.
+            </p>
           </div>
         </div>
 

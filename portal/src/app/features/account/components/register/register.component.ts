@@ -15,10 +15,6 @@ function passwordMatchValidator(
 ): { [key: string]: boolean } | null {
   const password = control.get('userPassword')?.value;
   const confirmPassword = control.get('confirmPassword')?.value;
-
-  console.log('Password:', password);
-  console.log('Confirm Password:', confirmPassword);
-
   return password === confirmPassword ? null : { mismatch: true };
 }
 
@@ -33,6 +29,8 @@ export class RegisterComponent {
   registerForm!: FormGroup;
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
+  nameErrorMessage: string | null = null;
+  usernameErrorMessage: string | null = null;
   emailErrorMessage: string | null = null;
   passwordErrorMessage: string | null = null;
   confirmPasswordErrorMessage: string | null = null;
@@ -67,12 +65,15 @@ export class RegisterComponent {
       },
       { validators: passwordMatchValidator }
     );
+    this.onNameChange();
+    this.onUsernameChange();
     this.onEmailChanges();
     this.onPasswordChanges();
-    this.onConfirmPasswordChanges();
   }
 
   onSubmit(): void {
+    this.checkNameValidity();
+    this.checkUsernameValidity();
     this.checkEmailValidity();
     this.checkPasswordValidity();
     this.checkConfirmPasswordValidity();
@@ -102,6 +103,47 @@ export class RegisterComponent {
 
   toggleConfirmPasswordVisibility(): void {
     this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
+  }
+
+  onNameChange(): void {
+    this.registerForm.get('name')?.valueChanges.subscribe(() => {
+      this.checkNameValidity();
+    });
+  }
+
+  checkNameValidity(): void {
+    const nameControl = this.registerForm.get('name');
+    if (nameControl?.hasError('required')) {
+      this.nameErrorMessage = 'empty';
+    } else {
+      this.nameErrorMessage = null;
+    }
+  }
+
+  onUsernameChange(): void {
+    this.registerForm.get('username')?.valueChanges.subscribe(() => {
+      this.checkUsernameValidity();
+    });
+  }
+
+  checkUsernameValidity(): void {
+    const usernameControl = this.registerForm.get('username');
+    const usernameValue = usernameControl?.value;
+    if (usernameControl?.hasError('required')) {
+      this.usernameErrorMessage = 'empty';
+    } else if (
+      usernameControl?.value &&
+      !/^[a-zA-Z0-9]+$/.test(usernameControl.value)
+    ) {
+      this.usernameErrorMessage = 'invalid';
+    } else if (
+      usernameValue &&
+      (usernameValue.length < 8 || usernameValue.length > 20)
+    ) {
+      this.usernameErrorMessage = 'length';
+    } else {
+      this.usernameErrorMessage = null;
+    }
   }
 
   onEmailChanges(): void {
@@ -152,15 +194,8 @@ export class RegisterComponent {
     }
   }
 
-  onConfirmPasswordChanges(): void {
-    this.registerForm.get('confirmPassword')?.valueChanges.subscribe(() => {
-      this.checkConfirmPasswordValidity();
-    });
-  }
-
   checkConfirmPasswordValidity(): void {
     const confirmPasswordControl = this.registerForm.get('confirmPassword');
-    console.log('Confirm Password Errors:', confirmPasswordControl?.errors);
 
     if (confirmPasswordControl?.hasError('required')) {
       this.confirmPasswordErrorMessage = 'empty';
