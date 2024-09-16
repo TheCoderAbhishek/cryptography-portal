@@ -28,7 +28,6 @@ export class LoginService {
 
   // Handle login success
   private handleLoginSuccess(response: any): void {
-    console.log('Login successful:', response.returnValue.token);
     this.router.navigate(['/dashboard']);
   }
 
