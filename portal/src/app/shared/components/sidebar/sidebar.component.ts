@@ -1,6 +1,5 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ActiveUsersComponent } from '../../../features/user_management/components/active-users/active-users.component';
 import { ActiveUsersService } from '../../../features/user_management/components/active-users/services/active-users.service';
 
 @Component({

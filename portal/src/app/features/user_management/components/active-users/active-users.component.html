@@ -26,7 +26,7 @@
         <tr>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">
-              Name
+              Sr No
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -48,7 +48,7 @@
           </th>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">
-              Release Date
+              User Name
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -70,7 +70,7 @@
           </th>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">
-              Downloads
+              Email
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -92,7 +92,7 @@
           </th>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">
-              Growth
+              Password
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -117,9 +117,9 @@
       <tbody class="bg-white divide-y divide-gray-200">
         <tr *ngFor="let user of users">
           <td class="p-4 text-gray-600">{{ user.name }}</td>
-          <td class="p-4 text-gray-600">{{ user.releaseDate }}</td>
-          <td class="p-4 text-gray-600">{{ user.downloads }}</td>
-          <td class="p-4 text-gray-600">{{ user.growth }}</td>
+          <td class="p-4 text-gray-600">{{ user.userName }}</td>
+          <td class="p-4 text-gray-600">{{ user.email }}</td>
+          <td class="p-4 text-gray-600">{{ user.password }}</td>
         </tr>
       </tbody>
     </table>

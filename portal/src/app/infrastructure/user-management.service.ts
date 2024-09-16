@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { catchError, from, map, Observable } from 'rxjs';
 import axios from 'axios';
+import { isPlatformBrowser } from '@angular/common';
 
 interface GetUsersListResponse {}
 
@@ -11,7 +12,7 @@ interface GetUsersListResponse {}
 export class UserManagementService {
   private apiUrl = `${environment.apiBaseUrl}/Account/`;
 
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   getUsersList(): Observable<GetUsersListResponse> {
     const token = this.getToken();
@@ -35,6 +36,9 @@ export class UserManagementService {
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('authToken');
+    if (isPlatformBrowser(this.platformId)) {
+      return sessionStorage.getItem('authToken');
+    }
+    return null;
   }
 }
