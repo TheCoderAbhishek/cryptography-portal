@@ -1,9 +1,8 @@
 import { NgFor } from '@angular/common';
-import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { DataTable } from 'simple-datatables';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
-import { ActiveUsersService } from './services/active-users.service';
 
 @Component({
   selector: 'app-active-users',
@@ -13,17 +12,53 @@ import { ActiveUsersService } from './services/active-users.service';
   styleUrl: './active-users.component.css',
 })
 export class ActiveUsersComponent implements AfterViewInit {
-  users: any[] = [];
+  users = [
+    {
+      name: 'Flowbite',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    {
+      name: 'Tailwind CSS',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    {
+      name: 'Flowbite',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    {
+      name: 'Flowbite',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    {
+      name: 'Flowbite',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    {
+      name: 'Flowbite',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    {
+      name: 'Flowbite',
+      releaseDate: '2021/25/09',
+      downloads: 269000,
+      growth: '49%',
+    },
+    // Add other user data or fetch dynamically
+  ];
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: any,
-    private activeUsersService: ActiveUsersService,
-    private cdr: ChangeDetectorRef
-  ) {}
-
-  ngOnInit(): void {
-    this.fetchActiveUsers();
-  }
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -40,18 +75,5 @@ export class ActiveUsersComponent implements AfterViewInit {
         });
       }
     }
-  }
-
-  fetchActiveUsers(): void {
-    this.activeUsersService.getUsersList().subscribe({
-      next: (response) => {
-        this.users = response.returnValue.$values;
-        console.log('Users fetched successfully:', this.users);
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error fetching users:', error);
-      },
-    });
   }
 }
