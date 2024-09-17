@@ -17,7 +17,7 @@ export class ActiveUsersService {
     return new Observable((observer) => {
       this.userManagementService.getUsersList().subscribe({
         next: (response) => {
-          this.handleGetUsersSuccess(response);
+          this.handleGetUsersSuccess();
           observer.next(response);
           observer.complete();
         },
@@ -30,8 +30,7 @@ export class ActiveUsersService {
   }
 
   // Handle fetching users success
-  private handleGetUsersSuccess(response: any): void {
-    console.log(response);
+  private handleGetUsersSuccess(): void {
     this.router.navigate(['/user-management/active-users']);
   }
 

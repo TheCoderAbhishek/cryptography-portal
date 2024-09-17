@@ -1,7 +1,6 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ActiveUsersComponent } from '../../../features/user_management/components/active-users/active-users.component';
-import { ActiveUsersService } from '../../../features/user_management/components/active-users/services/active-users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +10,7 @@ import { ActiveUsersService } from '../../../features/user_management/components
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  constructor(private activeUsersService: ActiveUsersService) {}
+  constructor(private router: Router) {}
 
   @Input() collapsed = false;
 
@@ -24,13 +23,6 @@ export class SidebarComponent {
   }
 
   fetchActiveUsers(): void {
-    this.activeUsersService.getUsersList().subscribe({
-      next: (response) => {
-        console.log('Users fetched successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error fetching users:', error);
-      },
-    });
+    this.router.navigate(['/user-management/active-users']);
   }
 }

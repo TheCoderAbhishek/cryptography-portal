@@ -26,7 +26,7 @@
         <tr>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">
-              Name
+              Sr
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -46,9 +46,15 @@
               </svg>
             </span>
           </th>
+          <th *ngIf="false" class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer"> Id </span>
+          </th>
+          <th *ngIf="false" class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer"> User Id </span>
+          </th>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">
-              Email
+              Name
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -91,8 +97,8 @@
             </span>
           </th>
           <th class="p-4 text-left text-gray-700 font-medium">
-            <span class="flex items-center cursor-pointer"
-              >Password
+            <span class="flex items-center cursor-pointer">
+              Email
               <svg
                 class="w-4 h-4 ms-1"
                 aria-hidden="true"
@@ -112,14 +118,62 @@
               </svg>
             </span>
           </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">Admin </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">Active </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer"
+              >Created On
+              <svg
+                class="w-4 h-4 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+              </svg>
+            </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">Actions</span>
+          </th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users; let i = index">
+          <td class="p-4 text-gray-600">{{ i + 1 }}</td>
+          <td *ngIf="false" class="p-4 text-gray-600">{{ user.id }}</td>
+          <td *ngIf="false" class="p-4 text-gray-600">{{ user.userId }}</td>
           <td class="p-4 text-gray-600">{{ user.name }}</td>
-          <td class="p-4 text-gray-600">{{ user.email }}</td>
           <td class="p-4 text-gray-600">{{ user.userName }}</td>
-          <td class="p-4 text-gray-600">{{ user.password }}</td>
+          <td class="p-4 text-gray-600">{{ user.email }}</td>
+          <td class="p-4 text-gray-600">{{ user.isAdmin }}</td>
+          <td class="p-4 text-gray-600">{{ user.isActive }}</td>
+          <td class="p-4 text-gray-600">{{ user.createdOn }}</td>
+          <td class="p-4 text-gray-600">
+            <i
+              class="fa-solid fa-pen-to-square text-blue-600 cursor-pointer"
+              title="Edit User"
+              (click)="editUser(user.id)"
+            ></i>
+            <i
+              class="fa-solid fa-trash text-red-600 ms-3 cursor-pointer"
+              title="Delete User"
+              (click)="deleteUser(user.id)"
+            ></i>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { DataTable } from 'simple-datatables';
 import { isPlatformBrowser } from '@angular/common';
@@ -11,7 +11,6 @@ interface User {
   name: string;
   userName: string;
   email: string;
-  password: string;
   isAdmin: boolean;
   isActive: boolean;
   isLocked: boolean;
@@ -31,7 +30,7 @@ interface User {
 @Component({
   selector: 'app-active-users',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
   templateUrl: './active-users.component.html',
   styleUrls: ['./active-users.component.css'],
 })
@@ -51,7 +50,6 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Clean up DataTable instance if it exists
     if (this.dataTable) {
       this.dataTable.destroy();
     }
@@ -62,14 +60,19 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
       next: (response) => {
         if (response.returnValue && response.returnValue.$values) {
           this.users = response.returnValue.$values.map((user: User) => ({
+            id: user.id,
+            userId: user.userId,
             name: user.name,
-            email: user.email,
             userName: user.userName,
-            password: user.password,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            isActive: user.isActive,
+            createdOn: user.createdOn,
           }));
 
-          // Re-initialize DataTable after data is set
-          this.initializeDataTable();
+          setTimeout(() => {
+            this.initializeDataTable();
+          }, 0);
         }
       },
       error: (error) => {
@@ -81,12 +84,10 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   initializeDataTable(): void {
     const tableElement = document.getElementById('active-user-table');
     if (tableElement) {
-      // Destroy existing instance if any
       if (this.dataTable) {
         this.dataTable.destroy();
       }
 
-      // Initialize new DataTable instance
       this.dataTable = new DataTable(tableElement as HTMLTableElement, {
         searchable: true,
         perPageSelect: [5, 10, 15],
@@ -97,5 +98,13 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
         },
       });
     }
+  }
+
+  editUser(id: number) {
+    console.log('Edit user with ID:', id);
+  }
+
+  deleteUser(id: number) {
+    console.log('Delete user with ID:', id);
   }
 }
