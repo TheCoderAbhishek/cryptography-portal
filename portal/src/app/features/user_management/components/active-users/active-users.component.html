@@ -1,0 +1,212 @@
+<div class="bg-gray-50 p-4 rounded-2xl">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="p-2 font-semibold text-2xl">User Management</h1>
+    <nav class="text-gray-600">
+      <ol class="flex space-x-2">
+        <li>
+          <a href="/dashboard" class="hover:text-indigo-700">
+            <i class="fa-solid fa-house text-sm"></i>
+          </a>
+        </li>
+        <li>/</li>
+        <li>
+          <a class="hover:text-indigo-700 text-sm">User Management</a>
+        </li>
+        <li>/</li>
+        <li>
+          <span class="text-gray-400 text-sm">Active Users List</span>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="bg-white shadow rounded-lg overflow-hidden p-4">
+    <h1 class="p-2 mb-2 font-semibold text-xl">Active Users List</h1>
+    <table id="active-user-table" class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">
+              Sr
+              <svg
+                class="w-4 h-4 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+              </svg>
+            </span>
+          </th>
+          <th *ngIf="false" class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer"> Id </span>
+          </th>
+          <th *ngIf="false" class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer"> User Id </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">
+              Name
+              <svg
+                class="w-4 h-4 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+              </svg>
+            </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">
+              Username
+              <svg
+                class="w-4 h-4 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+              </svg>
+            </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">
+              Email
+              <svg
+                class="w-4 h-4 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+              </svg>
+            </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">Admin </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">Active </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer"
+              >Created On
+              <svg
+                class="w-4 h-4 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m8 15 4 4 4-4m0-6-4-4-4 4"
+                />
+              </svg>
+            </span>
+          </th>
+          <th class="p-4 text-left text-gray-700 font-medium">
+            <span class="flex items-center cursor-pointer">Actions</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let user of users; let i = index">
+          <td class="p-4 text-gray-600">{{ i + 1 }}</td>
+          <td *ngIf="false" class="p-4 text-gray-600">{{ user.id }}</td>
+          <td *ngIf="false" class="p-4 text-gray-600">{{ user.userId }}</td>
+          <td class="p-4 text-gray-600">{{ user.name }}</td>
+          <td class="p-4 text-gray-600">{{ user.userName }}</td>
+          <td class="p-4 text-gray-600">{{ user.email }}</td>
+          <td class="p-4">
+            <span
+              class="px-3 py-1 text-sm flex items-center rounded-full cursor-pointer"
+              [ngClass]="{
+                'bg-blue-100 text-blue-800': user.isAdmin === true,
+                'bg-yellow-100 text-yellow-800': user.isAdmin === false
+              }"
+            >
+              <i
+                class="fa-solid fa-user-shield me-2"
+                *ngIf="user.isAdmin === true"
+              ></i>
+              <i
+                class="fa-solid fa-user me-2"
+                *ngIf="user.isAdmin === false"
+              ></i>
+              {{ user.isAdmin ? "Admin" : "User" }}
+            </span>
+          </td>
+          <td class="p-4 text-gray-600">
+            <span *ngIf="user.isActive; else inactive" class="text-green-500">
+              <i class="fa-regular fa-circle-check"></i>
+            </span>
+            <ng-template #inactive>
+              <span class="text-red-500">
+                <i class="fa-regular fa-circle-xmark"></i>
+              </span>
+            </ng-template>
+          </td>
+          <td class="p-4 text-gray-600">{{ user.createdOn }}</td>
+          <td class="p-4 text-gray-600 flex">
+            <button
+              class="bg-blue-500 text-white text-xs p-2 rounded-md ms-3 hover:bg-blue-700"
+              title="Edit User"
+              (click)="editUser(user.id)"
+            >
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button
+              class="bg-red-500 text-white text-xs p-2 rounded-md ms-3 hover:bg-red-700"
+              title="Delete User"
+              (click)="deleteUser(user.id)"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

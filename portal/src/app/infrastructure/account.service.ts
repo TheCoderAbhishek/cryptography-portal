@@ -12,6 +12,10 @@ interface LoginResponse {
 
 interface RegisterResponse {}
 
+interface OtpResponse {}
+
+interface OtpVerifyResponse {}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -89,7 +93,7 @@ export class AccountService {
 
           // Make the login request
           axios
-            .post<LoginResponse>(`${this.apiUrl}AddUserAsync`, userData)
+            .post<RegisterResponse>(`${this.apiUrl}AddUserAsync`, userData)
             .then((response) => {
               observer.next(response.data);
               observer.complete();
@@ -107,6 +111,42 @@ export class AccountService {
         }
       );
     });
+  }
+
+  otpGeneration(otpRequestDto: any): Observable<OtpResponse> {
+    return from(
+      axios.put<OtpResponse>(
+        `${this.apiUrl}OtpGenerationRequestAsync`,
+        otpRequestDto
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error during OTP generation:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  otpVerify(otpVerifyRequestDto: any): Observable<OtpVerifyResponse> {
+    return from(
+      axios.patch<OtpVerifyResponse>(
+        `${this.apiUrl}VerifyOtpRequestAsync`,
+        otpVerifyRequestDto
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error during OTP generation:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
   }
 
   // Method to encrypt the password

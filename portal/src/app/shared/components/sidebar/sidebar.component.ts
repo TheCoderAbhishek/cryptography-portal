@@ -1,5 +1,6 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +10,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
+  constructor(private router: Router) {}
+
   @Input() collapsed = false;
 
   isDropdownOpen: { [key: string]: boolean } = {
@@ -17,5 +20,9 @@ export class SidebarComponent {
 
   toggleDropdown(menu: string) {
     this.isDropdownOpen[menu] = !this.isDropdownOpen[menu];
+  }
+
+  fetchActiveUsers(): void {
+    this.router.navigate(['/user-management/active-users']);
   }
 }

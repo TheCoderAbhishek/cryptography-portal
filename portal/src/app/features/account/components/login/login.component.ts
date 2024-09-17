@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
       const credentials = this.loginForm.value;
       this.loginService.login(credentials).subscribe({
         next: (response) => {
+          this.storeToken(response.returnValue.token);
           this.loaderService.hide();
         },
         error: (error) => {
@@ -98,5 +99,17 @@ export class LoginComponent implements OnInit {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  storeToken(token: string): void {
+    sessionStorage.setItem('authToken', token);
+  }
+  
+  getToken(): string | null {
+    return sessionStorage.getItem('authToken');
+  }
+  
+  removeToken(): void {
+    sessionStorage.removeItem('authToken');
   }
 }

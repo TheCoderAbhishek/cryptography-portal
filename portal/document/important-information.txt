@@ -17,5 +17,13 @@ ng generate service infrastructure/account --skip-tests
 Command to generate a Angular Component:
 ng generate component shared/components/loader
 
+ng generate component features/account/components/otp-generate
+
+ng generate component features/account/components/otp-verify
+
 
 ng generate service features/account/components/register/services/register-service --skip-tests
+
+ng generate service features/account/components/otp-generate/services/otp-generate --skip-tests
+
+ng generate service features/account/components/otp-verify/services/otp-verify --skip-tests
