@@ -96,15 +96,4 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   deleteUser(id: number) {
     console.log('Delete user with ID:', id);
   }
-
-  getRoleName(role: boolean): string {
-    switch (role) {
-      case true:
-        return 'Super Admin';
-      case false:
-        return 'Admin';
-      default:
-        return 'Unknown';
-    }
-  }
 }
