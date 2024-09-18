@@ -93,6 +93,10 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  createUser() {
+    console.log('Create use triggered');
+  }
+
   editUser(id: number) {
     console.log('Edit user with ID:', id);
   }
