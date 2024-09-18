@@ -9,7 +9,7 @@ interface GetUsersListResponse {}
   providedIn: 'root',
 })
 export class UserManagementService {
-  private apiUrl = `${environment.apiBaseUrl}/Account/`;
+  private apiUrl = `${environment.apiBaseUrl}/UserManagement/`;
 
   constructor() {}
 
