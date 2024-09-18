@@ -21,7 +21,16 @@
   </div>
   <div class="bg-white shadow rounded-lg overflow-hidden p-4">
     <h1 class="p-2 mb-2 font-semibold text-xl">Active Users List</h1>
-    <table id="active-user-table" class="min-w-full divide-y divide-gray-200">
+
+    <div *ngIf="users.length === 0" class="text-center text-gray-500 p-4">
+      No active users found.
+    </div>
+
+    <table
+      *ngIf="users.length > 0"
+      id="active-user-table"
+      class="min-w-full divide-y divide-gray-200"
+    >
       <thead class="bg-gray-100">
         <tr>
           <th class="p-4 text-left text-gray-700 font-medium">

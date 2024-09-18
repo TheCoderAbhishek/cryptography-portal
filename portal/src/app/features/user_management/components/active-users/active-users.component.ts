@@ -78,9 +78,13 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
             createdOn: user.createdOn,
           }));
 
-          setTimeout(() => {
-            this.initializeDataTable();
-          }, 0);
+          if (this.users.length === 0) {
+            console.log('No active users found');
+          } else {
+            setTimeout(() => {
+              this.initializeDataTable();
+            }, 0);
+          }
         }
       },
       error: (error) => {
