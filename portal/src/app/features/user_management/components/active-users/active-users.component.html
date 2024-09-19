@@ -138,7 +138,7 @@
             </span>
           </th>
           <th class="p-4 text-left text-gray-700 font-medium">
-            <span class="flex items-center cursor-pointer">Admin </span>
+            <span class="flex items-center cursor-pointer">Role </span>
           </th>
           <th class="p-4 text-left text-gray-700 font-medium">
             <span class="flex items-center cursor-pointer">Active </span>
@@ -182,19 +182,34 @@
             <span
               class="px-2 py-2 text-xs flex items-center rounded-full cursor-pointer"
               [ngClass]="{
-                'bg-blue-100 text-blue-800': user.isAdmin === true,
-                'bg-yellow-100 text-yellow-800': user.isAdmin === false
+                'bg-yellow-100 text-yellow-800': user.roleId === 0,
+                'bg-blue-100 text-blue-800': user.roleId === 1,
+                'bg-green-100 text-green-800': user.roleId === 2,
+                'bg-red-100 text-red-800': user.roleId === 3
               }"
             >
               <i
-                class="fa-solid fa-user-shield me-2"
-                *ngIf="user.isAdmin === true"
+                class="fa-solid fa-user-slash me-2"
+                *ngIf="user.roleId === 0"
+              ></i>
+              <i class="fa-solid fa-user me-2" *ngIf="user.roleId === 1"></i>
+              <i
+                class="fa-solid fa-user-tie me-2"
+                *ngIf="user.roleId === 2"
               ></i>
               <i
-                class="fa-solid fa-user me-2"
-                *ngIf="user.isAdmin === false"
+                class="fa-solid fa-user-shield me-2"
+                *ngIf="user.roleId === 3"
               ></i>
-              {{ user.isAdmin ? "Admin" : "User" }}
+              {{
+                user.roleId === 0
+                  ? "Viewer"
+                  : user.roleId === 1
+                  ? "User"
+                  : user.roleId === 2
+                  ? "Admin"
+                  : "SuperAdmin"
+              }}
             </span>
           </td>
           <td class="p-4 text-gray-600">

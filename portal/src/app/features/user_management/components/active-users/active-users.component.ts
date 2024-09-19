@@ -13,6 +13,7 @@ interface User {
   email: string;
   isAdmin: boolean;
   isActive: boolean;
+  roleId: number;
   createdOn: string;
 }
 
@@ -75,6 +76,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
             email: user.email,
             isAdmin: user.isAdmin,
             isActive: user.isActive,
+            roleId: user.roleId,
             createdOn: user.createdOn,
           }));
 
