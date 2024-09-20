@@ -120,6 +120,37 @@
           </div>
         </div>
 
+        <!-- Confirm Password -->
+        <div>
+          <label
+            for="confirmPassword"
+            class="block text-sm font-medium text-gray-700"
+            >Confirm Password</label
+          >
+          <div class="mt-1">
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              #confirmPasswordField="ngModel"
+              required
+              minlength="6"
+              placeholder="Confirm password"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div
+            *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched"
+            class="mt-2 text-sm text-red-500"
+          >
+            Confirm Password is required.
+          </div>
+          <div *ngIf="passwordMismatch" class="mt-2 text-sm text-red-500">
+            Passwords do not match.
+          </div>
+        </div>
+
         <!-- Role -->
         <div>
           <label for="role" class="block text-sm font-medium text-gray-700"

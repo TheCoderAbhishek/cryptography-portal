@@ -2,7 +2,6 @@ import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActiveUsersService } from '../services/active-users.service';
-import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
 import { LoaderService } from '../../../../../shared/services/loader.service';
 
 @Component({
@@ -14,8 +13,10 @@ import { LoaderService } from '../../../../../shared/services/loader.service';
 })
 export class CreateUserComponent {
   user: any;
+  confirmPassword: string = '';
   emailErrorMessage: string | null = null;
   usernameErrorMessage: string | null = null;
+  passwordMismatch: boolean = false;
 
   constructor(
     private loaderService: LoaderService,
@@ -25,6 +26,11 @@ export class CreateUserComponent {
   }
 
   onSubmit() {
+    if (this.user.Password !== this.confirmPassword) {
+      this.passwordMismatch = true;
+      return;
+    }
+
     this.loaderService.show();
     this.activeUsersService.createNewUser(this.user).subscribe({
       next: (response: any) => {
