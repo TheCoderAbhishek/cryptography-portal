@@ -38,4 +38,29 @@ export class ActiveUsersService {
   private handleGetUsersError(error: any): void {
     console.error('Error occurred while getting users list:', error);
   }
+
+  createNewUser(inCreateUser: any) {
+    return new Observable((observer) => {
+      this.userManagementService.createNewUser(inCreateUser).subscribe({
+        next: (response) => {
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleCreateNewUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle fetching users success
+  public handleCreateNewUserSuccess(): void {
+    this.router.navigate(['/user-management/active-users']);
+  }
+
+  // Handle fetching users error
+  private handleCreateNewUserError(error: any): void {
+    console.error('Error occurred while getting users list:', error);
+  }
 }

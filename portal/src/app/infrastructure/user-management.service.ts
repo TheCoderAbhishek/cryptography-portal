@@ -5,6 +5,8 @@ import axios from 'axios';
 
 interface GetUsersListResponse {}
 
+interface CreateUserResponse {}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,6 +24,31 @@ export class UserManagementService {
           Authorization: `Bearer ${token}`,
         },
       })
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during getting users list:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  createNewUser(inCreateUser: any): Observable<CreateUserResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.post<CreateUserResponse>(
+        `${this.apiUrl}CreateNewUserAsync`,
+        inCreateUser,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
     ).pipe(
       map((response) => response.data),
       catchError((error) => {
