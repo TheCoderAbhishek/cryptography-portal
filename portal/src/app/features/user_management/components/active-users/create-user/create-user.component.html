@@ -1,0 +1,156 @@
+<div
+  class="flex min-h-screen flex-col justify-center px-4 py-12 sm:px-6 lg:px-8"
+>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-4 text-center text-3xl tracking-tight text-gray-900">
+      Create New User
+    </h2>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form (ngSubmit)="onSubmit()" #createUserForm="ngForm" class="space-y-6">
+        <!-- Name -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700"
+            >Name</label
+          >
+          <div class="mt-1">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="user.Name"
+              #name="ngModel"
+              required
+              placeholder="Enter full name"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div
+            *ngIf="name.invalid && name.touched"
+            class="mt-2 text-sm text-red-500"
+          >
+            Name is required.
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >Username</label
+          >
+          <div class="mt-1">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              [(ngModel)]="user.UserName"
+              #username="ngModel"
+              required
+              placeholder="Enter username"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div
+            *ngIf="username.invalid && username.touched"
+            class="mt-2 text-sm text-red-500"
+          >
+            Username is required.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email</label
+          >
+          <div class="mt-1">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="user.Email"
+              #email="ngModel"
+              required
+              placeholder="Enter email"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div
+            *ngIf="email.invalid && email.touched"
+            class="mt-2 text-sm text-red-500"
+          >
+            Please enter a valid email.
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password</label
+          >
+          <div class="mt-1 relative">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              [(ngModel)]="user.Password"
+              #password="ngModel"
+              required
+              minlength="6"
+              placeholder="Enter password"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div
+            *ngIf="password.invalid && password.touched"
+            class="mt-2 text-sm text-red-500"
+          >
+            Password must be at least 6 characters.
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700"
+            >Role</label
+          >
+          <div class="mt-1">
+            <select
+              id="role"
+              name="role"
+              [(ngModel)]="user.RoleId"
+              #role="ngModel"
+              required
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            >
+              <option value="" disabled>Select role</option>
+              <option value="0">Viewer</option>
+              <option value="1">User</option>
+              <option value="2">Admin</option>
+              <option value="3">SuperAdmin</option>
+            </select>
+          </div>
+          <div
+            *ngIf="role.invalid && role.touched"
+            class="mt-2 text-sm text-red-500"
+          >
+            Role is required.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            type="submit"
+            [disabled]="createUserForm.invalid"
+            class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Create User
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

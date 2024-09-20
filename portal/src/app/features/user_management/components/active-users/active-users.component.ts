@@ -4,6 +4,7 @@ import { DataTable } from 'simple-datatables';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { ActiveUsersService } from './services/active-users.service';
+import { Router, RouterModule } from '@angular/router';
 
 interface User {
   id: number;
@@ -20,7 +21,7 @@ interface User {
 @Component({
   selector: 'app-active-users',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass],
+  imports: [NgFor, NgIf, NgClass, RouterModule],
   templateUrl: './active-users.component.html',
   styleUrls: ['./active-users.component.css'],
 })
@@ -30,7 +31,8 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
-    private activeUsersService: ActiveUsersService
+    private activeUsersService: ActiveUsersService,
+    private router: Router
   ) {}
 
   initializeDataTable(): void {
@@ -96,7 +98,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   }
 
   createUser() {
-    console.log('Create use triggered');
+    this.router.navigate(['/user-management/create-user']);
   }
 
   editUser(id: number) {
