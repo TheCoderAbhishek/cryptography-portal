@@ -6,6 +6,7 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { ActiveUsersService } from './services/active-users.service';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from '../../services/message.service';
+import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 interface User {
   id: number;
@@ -23,7 +24,7 @@ interface User {
 @Component({
   selector: 'app-active-users',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, RouterModule],
+  imports: [NgFor, NgIf, NgClass, RouterModule, ConfirmationDialogComponent],
   templateUrl: './active-users.component.html',
   styleUrls: ['./active-users.component.css'],
 })
@@ -32,6 +33,9 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   errorMessage: string | null = null;
   users: any[] = [];
   dataTable: DataTable | undefined;
+  showSoftDeleteConfirmationDialog = false;
+  showHardDeleteConfirmationDialog = false;
+  userIdToDelete: number | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -157,12 +161,26 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   }
 
   softDeleteUser(id: number) {
-    if (confirm('Do you want to soft delete this user?')) {
-      console.log('Delete user with ID:', id);
+    this.userIdToDelete = id;
+    this.showSoftDeleteConfirmationDialog = true;
+  }
+
+  onConfirmSoftDelete(confirm: boolean) {
+    this.showSoftDeleteConfirmationDialog = false;
+    if (confirm && this.userIdToDelete !== null) {
+      console.log('Delete user with ID:', this.userIdToDelete);
     }
   }
 
-  deleteUser(id: number) {
-    console.log('Delete user with ID:', id);
+  hardDeleteUser(id: number) {
+    this.userIdToDelete = id;
+    this.showHardDeleteConfirmationDialog = true;
+  }
+
+  onConfirmHardDelete(confirm: boolean) {
+    this.showHardDeleteConfirmationDialog = false;
+    if (confirm && this.userIdToDelete !== null) {
+      console.log('Hard delete user with ID:', this.userIdToDelete);
+    }
   }
 }

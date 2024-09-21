@@ -296,7 +296,7 @@
             <button
               class="bg-red-500 text-white text-xs p-2 rounded-md ms-2 hover:bg-red-700"
               title="Delete User"
-              (click)="deleteUser(user.id)"
+              (click)="hardDeleteUser(user.id)"
             >
               <i class="fa-solid fa-trash-can"></i>
             </button>
@@ -304,5 +304,17 @@
         </tr>
       </tbody>
     </table>
+    <app-confirmation-dialog
+      *ngIf="showSoftDeleteConfirmationDialog"
+      [message]="'Do you want to soft delete this user?'"
+      (confirm)="onConfirmSoftDelete($event)"
+    >
+    </app-confirmation-dialog>
+    <app-confirmation-dialog
+      *ngIf="showHardDeleteConfirmationDialog"
+      [message]="'Do you want to permanantaly delete this user?'"
+      (confirm)="onConfirmHardDelete($event)"
+    >
+    </app-confirmation-dialog>
   </div>
 </div>
