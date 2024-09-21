@@ -100,6 +100,7 @@
               (ngModelChange)="validatePassword()"
               #password="ngModel"
               required
+              autocomplete="new-password"
               minlength="6"
               placeholder="Enter password"
               class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
@@ -132,6 +133,7 @@
               name="confirmPassword"
               [(ngModel)]="confirmPassword"
               required
+              autocomplete="new-password"
               placeholder="Confirm password"
               class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
             />

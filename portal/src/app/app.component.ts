@@ -5,7 +5,6 @@ import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { Observable } from 'rxjs';
 import { LoaderService } from './shared/services/loader.service';
-import { initFlowbite } from 'flowbite';
 import { FlowbiteService } from './core/services/flowbite.service';
 
 @Component({
@@ -28,8 +27,6 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.flowBiteService.loadFlowbite((flowbite) => {
-      console.log('Flowbite loaded:', flowbite);
-    });
+    this.flowBiteService.loadFlowbite(() => {});
   }
 }
