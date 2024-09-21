@@ -156,6 +156,12 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     console.log('Edit user with ID:', id);
   }
 
+  softDeleteUser(id: number) {
+    if (confirm('Do you want to soft delete this user?')) {
+      console.log('Delete user with ID:', id);
+    }
+  }
+
   deleteUser(id: number) {
     console.log('Delete user with ID:', id);
   }
