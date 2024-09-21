@@ -164,7 +164,7 @@
               data-dropdown-toggle="dropdownRadioBgHover"
               class="w-full text-left bg-white border border-gray-700 rounded-md shadow-sm px-3 py-2 flex justify-between items-center focus:ring focus:border-gray-700"
               type="button"
-              (click)="isRoleTouched = true"
+              (click)="isDropdownOpen = !isDropdownOpen; isRoleTouched = true"
             >
               <span *ngIf="!user.RoleId" class="text-gray-400"
                 >Select role</span
@@ -182,6 +182,13 @@
                     : ""
                 }}
               </span>
+              <i
+                class="fas"
+                [ngClass]="{
+                  'fa-chevron-down': !isDropdownOpen,
+                  'fa-chevron-up': isDropdownOpen
+                }"
+              ></i>
             </button>
 
             <!-- Dropdown menu -->

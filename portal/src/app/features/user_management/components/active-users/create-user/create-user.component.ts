@@ -21,6 +21,7 @@ export class CreateUserComponent {
   passwordMismatch: boolean = false;
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+  isDropdownOpen: boolean = false;
   isRoleTouched = false;
 
   constructor(
