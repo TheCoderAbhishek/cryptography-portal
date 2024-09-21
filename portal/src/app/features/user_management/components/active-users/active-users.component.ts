@@ -36,6 +36,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   showSoftDeleteConfirmationDialog = false;
   showHardDeleteConfirmationDialog = false;
   userIdToDelete: number | null = null;
+  message: string = '';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -160,27 +161,24 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     console.log('Edit user with ID:', id);
   }
 
-  softDeleteUser(id: number) {
-    this.userIdToDelete = id;
+  // Method to handle soft delete
+  softDeleteUser(userId: number) {
+    this.message = 'Do you want to soft delete this user?';
     this.showSoftDeleteConfirmationDialog = true;
   }
 
-  onConfirmSoftDelete(confirm: boolean) {
-    this.showSoftDeleteConfirmationDialog = false;
-    if (confirm && this.userIdToDelete !== null) {
-      console.log('Delete user with ID:', this.userIdToDelete);
-    }
-  }
+  onConfirmSoftDelete() {}
 
-  hardDeleteUser(id: number) {
-    this.userIdToDelete = id;
+  // Method to handle hard delete
+  hardDeleteUser(userId: number) {
+    this.message = 'Do you want to permanently delete this user?';
     this.showHardDeleteConfirmationDialog = true;
   }
 
-  onConfirmHardDelete(confirm: boolean) {
+  onConfirmHardDelete() {}
+
+  clearConfirmationDialog() {
+    this.showSoftDeleteConfirmationDialog = false;
     this.showHardDeleteConfirmationDialog = false;
-    if (confirm && this.userIdToDelete !== null) {
-      console.log('Hard delete user with ID:', this.userIdToDelete);
-    }
   }
 }

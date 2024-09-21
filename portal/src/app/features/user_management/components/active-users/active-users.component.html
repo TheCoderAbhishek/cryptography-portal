@@ -305,16 +305,17 @@
       </tbody>
     </table>
     <app-confirmation-dialog
-      *ngIf="showSoftDeleteConfirmationDialog"
-      [message]="'Do you want to soft delete this user?'"
-      (confirm)="onConfirmSoftDelete($event)"
-    >
-    </app-confirmation-dialog>
+      [message]="message"
+      [isVisible]="showSoftDeleteConfirmationDialog"
+      (confirm)="onConfirmSoftDelete()"
+      (cancel)="clearConfirmationDialog()"
+    ></app-confirmation-dialog>
+
     <app-confirmation-dialog
-      *ngIf="showHardDeleteConfirmationDialog"
-      [message]="'Do you want to permanantaly delete this user?'"
-      (confirm)="onConfirmHardDelete($event)"
-    >
-    </app-confirmation-dialog>
+      [message]="message"
+      [isVisible]="showHardDeleteConfirmationDialog"
+      (confirm)="onConfirmHardDelete()"
+      (cancel)="clearConfirmationDialog()"
+    ></app-confirmation-dialog>
   </div>
 </div>
