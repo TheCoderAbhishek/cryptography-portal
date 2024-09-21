@@ -14,6 +14,7 @@ interface User {
   email: string;
   isAdmin: boolean;
   isActive: boolean;
+  isLocked: boolean;
   roleId: number;
   createdOn: string;
 }
@@ -78,6 +79,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
             email: user.email,
             isAdmin: user.isAdmin,
             isActive: user.isActive,
+            isLocked: user.isLocked,
             roleId: user.roleId,
             createdOn: user.createdOn,
           }));
@@ -100,6 +102,8 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   createUser() {
     this.router.navigate(['/user-management/create-user']);
   }
+
+  toggleLock(userId: string) {}
 
   editUser(id: number) {
     console.log('Edit user with ID:', id);
