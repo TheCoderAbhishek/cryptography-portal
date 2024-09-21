@@ -25,4 +25,8 @@ export class SidebarComponent {
   fetchActiveUsers(): void {
     this.router.navigate(['/user-management/active-users']);
   }
+
+  fetchInactiveUsers(): void {
+    this.router.navigate(['/user-management/inactive-users']);
+  }
 }

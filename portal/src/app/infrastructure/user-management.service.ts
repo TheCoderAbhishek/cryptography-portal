@@ -5,6 +5,8 @@ import axios from 'axios';
 
 interface GetUsersListResponse {}
 
+interface GetDeletedUsersListResponse {}
+
 interface CreateUserResponse {}
 
 interface LockUnlockResponse {
@@ -36,6 +38,27 @@ export class UserManagementService {
       catchError((error) => {
         console.error(
           'Error occurred during getting users list:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  getDeletedUsersList(): Observable<GetDeletedUsersListResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.get<GetDeletedUsersListResponse>(`${this.apiUrl}GetDeletedUsersAsync`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during getting soft deleted users list:',
           error.response ? error.response.data : error.message
         );
         throw error;
