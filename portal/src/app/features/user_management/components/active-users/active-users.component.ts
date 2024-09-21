@@ -71,18 +71,38 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     this.activeUsersService.getUsersList().subscribe({
       next: (response) => {
         if (response.returnValue && response.returnValue.$values) {
-          this.users = response.returnValue.$values.map((user: User) => ({
-            id: user.id,
-            userId: user.userId,
-            name: user.name,
-            userName: user.userName,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            isActive: user.isActive,
-            isLocked: user.isLocked,
-            roleId: user.roleId,
-            createdOn: user.createdOn,
-          }));
+          this.users = response.returnValue.$values.map((user: User) => {
+            const createdOn = new Date(user.createdOn);
+            const formattedDate = `${createdOn.getFullYear()}-${(
+              createdOn.getMonth() + 1
+            )
+              .toString()
+              .padStart(2, '0')}-${createdOn
+              .getDate()
+              .toString()
+              .padStart(2, '0')} ${createdOn
+              .getHours()
+              .toString()
+              .padStart(2, '0')}:${createdOn
+              .getMinutes()
+              .toString()
+              .padStart(2, '0')}:${createdOn
+              .getSeconds()
+              .toString()
+              .padStart(2, '0')}`;
+            return {
+              id: user.id,
+              userId: user.userId,
+              name: user.name,
+              userName: user.userName,
+              email: user.email,
+              isAdmin: user.isAdmin,
+              isActive: user.isActive,
+              isLocked: user.isLocked,
+              roleId: user.roleId,
+              createdOn: formattedDate,
+            };
+          });
 
           if (this.users.length === 0) {
             console.log('No active users found');

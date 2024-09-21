@@ -32,15 +32,7 @@
       </button>
     </div>
 
-    <div *ngIf="users.length === 0" class="text-center text-gray-500 p-4">
-      No active users found.
-    </div>
-
-    <table
-      *ngIf="users.length > 0"
-      id="active-user-table"
-      class="min-w-full divide-y divide-gray-200"
-    >
+    <table id="active-user-table" class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-100">
         <tr>
           <th class="p-4 text-left text-gray-700 font-medium">
@@ -174,6 +166,11 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngIf="users.length === 0">
+          <td colspan="100%" class="p-4 text-center text-gray-500">
+            No active users found.
+          </td>
+        </tr>
         <tr *ngFor="let user of users; let i = index">
           <td class="p-4 text-gray-600">{{ i + 1 }}</td>
           <td *ngIf="false" class="p-4 text-gray-600">{{ user.id }}</td>
