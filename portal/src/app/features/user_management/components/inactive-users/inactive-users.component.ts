@@ -4,7 +4,7 @@ import { InactiveUsersService } from './services/inactive-users.service';
 import { MessageService } from '../../services/message.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../../../shared/services/loader.service';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgClass, NgFor, NgIf } from '@angular/common';
 
 interface User {
   id: number;
@@ -21,7 +21,7 @@ interface User {
 @Component({
   selector: 'app-inactive-users',
   standalone: true,
-  imports: [],
+  imports: [NgIf, NgClass, NgFor],
   templateUrl: './inactive-users.component.html',
   styleUrl: './inactive-users.component.css',
 })
@@ -38,6 +38,13 @@ export class InactiveUsersComponent {
     private router: Router,
     private loaderService: LoaderService
   ) {}
+
+  // Clear the messages
+  clearMessage(): void {
+    this.successMessage = null;
+    this.errorMessage = null;
+    this.messageService.clearMessage();
+  }
 
   initializeDataTable(): void {
     const tableElement = document.getElementById('inactive-user-table');
@@ -139,4 +146,6 @@ export class InactiveUsersComponent {
       },
     });
   }
+
+  restoreUser(id: number) {}
 }
