@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActiveUsersService } from '../services/active-users.service';
@@ -7,7 +7,7 @@ import { LoaderService } from '../../../../../shared/services/loader.service';
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [FormsModule, NgIf, NgClass],
+  imports: [FormsModule, NgIf, NgClass, NgFor],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css',
 })
@@ -23,6 +23,12 @@ export class CreateUserComponent {
   showConfirmPassword: boolean = false;
   isDropdownOpen: boolean = false;
   isRoleTouched = false;
+  roles = [
+    { id: '0', name: 'Viewer' },
+    { id: '1', name: 'User' },
+    { id: '2', name: 'Admin' },
+    { id: '3', name: 'SuperAdmin' },
+  ];
 
   constructor(
     private loaderService: LoaderService,

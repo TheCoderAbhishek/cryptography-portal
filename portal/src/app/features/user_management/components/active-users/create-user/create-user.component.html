@@ -194,90 +194,32 @@
             <!-- Dropdown menu -->
             <div
               id="dropdownRadioBgHover"
-              class="z-10 hidden w-full bg-white divide-y divide-gray-100 rounded-lg shadow"
+              [ngClass]="{ hidden: !isDropdownOpen }"
+              class="z-10 w-full bg-white divide-y divide-gray-100 rounded-lg shadow"
             >
               <ul
                 class="p-3 space-y-1 text-sm text-gray-700"
                 aria-labelledby="dropdownRadioBgHoverButton"
               >
-                <li>
+                <li *ngFor="let role of roles">
                   <div
                     class="flex items-center p-2 rounded hover:bg-gray-100"
-                    (click)="user.RoleId = '0'"
+                    (click)="user.RoleId = role.id; isDropdownOpen = false"
                   >
                     <input
-                      id="role-viewer"
+                      [id]="'role-' + role.name"
                       type="radio"
-                      value="0"
+                      [value]="role.id"
                       name="role"
                       class="w-4 h-4 text-indigo-700"
-                      [checked]="user.RoleId === '0'"
+                      [checked]="user.RoleId === role.id"
                     />
                     <label
-                      for="role-viewer"
+                      [for]="'role-' + role.name"
                       class="w-full ms-2 text-sm font-medium"
-                      >Viewer</label
                     >
-                  </div>
-                </li>
-                <li>
-                  <div
-                    class="flex items-center p-2 rounded hover:bg-gray-100"
-                    (click)="user.RoleId = '1'"
-                  >
-                    <input
-                      id="role-user"
-                      type="radio"
-                      value="1"
-                      name="role"
-                      class="w-4 h-4 text-indigo-700"
-                      [checked]="user.RoleId === '1'"
-                    />
-                    <label
-                      for="role-user"
-                      class="w-full ms-2 text-sm font-medium"
-                      >User</label
-                    >
-                  </div>
-                </li>
-                <li>
-                  <div
-                    class="flex items-center p-2 rounded hover:bg-gray-100"
-                    (click)="user.RoleId = '2'"
-                  >
-                    <input
-                      id="role-admin"
-                      type="radio"
-                      value="2"
-                      name="role"
-                      class="w-4 h-4 text-indigo-700"
-                      [checked]="user.RoleId === '2'"
-                    />
-                    <label
-                      for="role-admin"
-                      class="w-full ms-2 text-sm font-medium"
-                      >Admin</label
-                    >
-                  </div>
-                </li>
-                <li>
-                  <div
-                    class="flex items-center p-2 rounded hover:bg-gray-100"
-                    (click)="user.RoleId = '3'"
-                  >
-                    <input
-                      id="role-superadmin"
-                      type="radio"
-                      value="3"
-                      name="role"
-                      class="w-4 h-4 text-indigo-700"
-                      [checked]="user.RoleId === '3'"
-                    />
-                    <label
-                      for="role-superadmin"
-                      class="w-full ms-2 text-sm font-medium"
-                      >SuperAdmin</label
-                    >
+                      {{ role.name }}
+                    </label>
                   </div>
                 </li>
               </ul>
