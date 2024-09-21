@@ -27,6 +27,8 @@ interface User {
   styleUrls: ['./active-users.component.css'],
 })
 export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
   users: any[] = [];
   dataTable: DataTable | undefined;
 
@@ -35,6 +37,12 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     private activeUsersService: ActiveUsersService,
     private router: Router
   ) {}
+
+  // Clear the messages
+  clearMessage(): void {
+    this.successMessage = null;
+    this.errorMessage = null;
+  }
 
   initializeDataTable(): void {
     const tableElement = document.getElementById('active-user-table');
