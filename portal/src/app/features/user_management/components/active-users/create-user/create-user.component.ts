@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActiveUsersService } from '../services/active-users.service';
 import { LoaderService } from '../../../../../shared/services/loader.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-create-user',
@@ -32,7 +33,8 @@ export class CreateUserComponent {
 
   constructor(
     private loaderService: LoaderService,
-    private activeUsersService: ActiveUsersService
+    private activeUsersService: ActiveUsersService,
+    private messageService: MessageService
   ) {
     this.user = {};
   }
@@ -57,20 +59,17 @@ export class CreateUserComponent {
       this.loaderService.show();
       this.activeUsersService.createNewUser(this.user).subscribe({
         next: (response: any) => {
-          console.log(response);
           if (response.responseCode === 1) {
-            alert(response.successMessage);
+            this.messageService.setMessage(response.successMessage);
             this.navigateToActiveUsers();
           } else if (response.responseCode === 2) {
-            // Duplicate email error
             this.emailErrorMessage = response.errorMessage;
             this.clearErrorMessage('email');
           } else if (response.responseCode === 3) {
-            // Duplicate username error
             this.usernameErrorMessage = response.errorMessage;
             this.clearErrorMessage('username');
           } else {
-            alert(response.errorMessage);
+            this.messageService.setMessage(undefined, response.errorMessage);
           }
           this.loaderService.hide();
         },

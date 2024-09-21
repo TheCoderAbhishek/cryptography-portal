@@ -22,13 +22,16 @@
   <!-- Success Alert Message -->
   <div *ngIf="successMessage" class="w-full mb-4">
     <div
-      class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex justify-between items-center"
+      class="bg-green-200 border border-green-500 text-green-800 px-4 py-3 rounded-lg flex justify-between items-center shadow-lg transition duration-300 ease-in-out"
       role="alert"
     >
-      <span>{{ successMessage }}</span>
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2 text-green-600"></i>
+        <span>{{ successMessage }}</span>
+      </div>
       <button
         (click)="clearMessage()"
-        class="text-green-700 hover:text-green-900"
+        class="text-green-600 hover:text-green-800 transition duration-200"
       >
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -38,15 +41,22 @@
   <!-- Error Alert Message -->
   <div *ngIf="errorMessage" class="w-full mb-4">
     <div
-      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg flex justify-between items-center"
+      class="bg-red-200 border border-red-500 text-red-800 px-4 py-3 rounded-lg flex justify-between items-center shadow-lg transition duration-300 ease-in-out"
       role="alert"
     >
-      <span>{{ errorMessage }}</span>
-      <button (click)="clearMessage()" class="text-red-700 hover:text-red-900">
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-triangle mr-2 text-red-600"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <button
+        (click)="clearMessage()"
+        class="text-red-600 hover:text-red-800 transition duration-200"
+      >
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
   </div>
+
   <div class="bg-white shadow rounded-lg overflow-hidden p-4">
     <!-- Title with Create User button -->
     <div class="flex items-center justify-between mb-2">

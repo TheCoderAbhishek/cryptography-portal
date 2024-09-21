@@ -5,6 +5,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { ActiveUsersService } from './services/active-users.service';
 import { Router, RouterModule } from '@angular/router';
+import { MessageService } from '../../services/message.service';
 
 interface User {
   id: number;
@@ -35,13 +36,31 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
     private activeUsersService: ActiveUsersService,
+    private messageService: MessageService,
     private router: Router
   ) {}
+
+  // In ngOnInit
+  ngOnInit() {
+    this.messageService.message$.subscribe((message) => {
+      if (message) {
+        if (message.success) {
+          this.successMessage = message.success;
+          setTimeout(() => this.clearMessage(), 3000);
+        }
+        if (message.error) {
+          this.errorMessage = message.error;
+          setTimeout(() => this.clearMessage(), 3000);
+        }
+      }
+    });
+  }
 
   // Clear the messages
   clearMessage(): void {
     this.successMessage = null;
     this.errorMessage = null;
+    this.messageService.clearMessage();
   }
 
   initializeDataTable(): void {
