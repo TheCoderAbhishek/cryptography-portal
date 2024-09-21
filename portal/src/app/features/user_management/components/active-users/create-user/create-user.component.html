@@ -9,7 +9,11 @@
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <form (ngSubmit)="onSubmit()" #createUserForm="ngForm" class="space-y-6">
+      <form
+        (ngSubmit)="onSubmit(createUserForm)"
+        #createUserForm="ngForm"
+        class="space-y-6"
+      >
         <!-- Name -->
         <div>
           <label for="name" class="block text-sm font-medium text-gray-700"
@@ -21,18 +25,16 @@
               id="name"
               name="name"
               [(ngModel)]="user.Name"
+              (ngModelChange)="validateName()"
               #name="ngModel"
               required
               autocomplete="name"
               placeholder="Enter full name"
-              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
             />
           </div>
-          <div
-            *ngIf="name.invalid && name.touched"
-            class="mt-2 text-sm text-red-500"
-          >
-            Name is required.
+          <div *ngIf="nameErrorMessage" class="mt-2 text-sm text-red-500">
+            {{ nameErrorMessage }}
           </div>
         </div>
 
@@ -47,18 +49,13 @@
               id="username"
               name="username"
               [(ngModel)]="user.UserName"
+              (ngModelChange)="validateUsername()"
               #username="ngModel"
               required
               autocomplete="username"
               placeholder="Enter username"
-              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
             />
-          </div>
-          <div
-            *ngIf="username.invalid && username.touched"
-            class="mt-2 text-sm text-red-500"
-          >
-            Username is required.
           </div>
           <div *ngIf="usernameErrorMessage" class="mt-2 text-sm text-red-500">
             {{ usernameErrorMessage }}
@@ -76,18 +73,13 @@
               id="email"
               name="email"
               [(ngModel)]="user.Email"
+              (ngModelChange)="validateEmail()"
               #email="ngModel"
               required
               autocomplete="email"
               placeholder="Enter email"
-              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
             />
-          </div>
-          <div
-            *ngIf="email.invalid && email.touched"
-            class="mt-2 text-sm text-red-500"
-          >
-            Please enter a valid email.
           </div>
           <div *ngIf="emailErrorMessage" class="mt-2 text-sm text-red-500">
             {{ emailErrorMessage }}
@@ -99,52 +91,60 @@
           <label for="password" class="block text-sm font-medium text-gray-700"
             >Password</label
           >
-          <div class="mt-1 relative">
+          <div class="relative mt-1">
             <input
-              type="password"
+              [type]="showPassword ? 'text' : 'password'"
               id="password"
               name="password"
               [(ngModel)]="user.Password"
+              (ngModelChange)="validatePassword()"
               #password="ngModel"
               required
               minlength="6"
               placeholder="Enter password"
-              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
             />
+            <i
+              class="fa-solid"
+              [ngClass]="
+                showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
+              "
+              (click)="togglePasswordVisibility()"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+            ></i>
           </div>
-          <div
-            *ngIf="password.invalid && password.touched"
-            class="mt-2 text-sm text-red-500"
-          >
-            Password must be at least 6 characters.
+          <div *ngIf="passwordErrorMessage" class="mt-2 text-sm text-red-500">
+            {{ passwordErrorMessage }}
           </div>
         </div>
 
         <!-- Confirm Password -->
         <div>
           <label
-            for="confirmPassword"
+            for="confirm-password"
             class="block text-sm font-medium text-gray-700"
             >Confirm Password</label
           >
-          <div class="mt-1">
+          <div class="relative mt-1">
             <input
-              type="password"
+              [type]="showConfirmPassword ? 'text' : 'password'"
               id="confirmPassword"
               name="confirmPassword"
               [(ngModel)]="confirmPassword"
-              #confirmPasswordField="ngModel"
               required
-              minlength="6"
               placeholder="Confirm password"
-              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              class="block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
             />
-          </div>
-          <div
-            *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched"
-            class="mt-2 text-sm text-red-500"
-          >
-            Confirm Password is required.
+            <i
+              class="fa-solid"
+              [ngClass]="
+                showConfirmPassword
+                  ? 'fa-solid fa-eye-slash'
+                  : 'fa-solid fa-eye'
+              "
+              (click)="toggleConfirmPasswordVisibility()"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+            ></i>
           </div>
           <div *ngIf="passwordMismatch" class="mt-2 text-sm text-red-500">
             Passwords do not match.
