@@ -7,6 +7,7 @@ import { ActiveUsersService } from './services/active-users.service';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { LoaderService } from '../../../../shared/services/loader.service';
 
 interface User {
   id: number;
@@ -19,6 +20,13 @@ interface User {
   isLocked: boolean;
   roleId: number;
   createdOn: string;
+}
+
+interface LockUnlockResponse {
+  responseCode: number;
+  successMessage: string;
+  errorMessage: string;
+  statusCode: number;
 }
 
 @Component({
@@ -35,14 +43,17 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   dataTable: DataTable | undefined;
   showSoftDeleteConfirmationDialog = false;
   showHardDeleteConfirmationDialog = false;
+  showLockunlockConfirmationDialog = false;
   userIdToDelete: number | null = null;
   message: string = '';
+  userIdToLockUnlock: number | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
     private activeUsersService: ActiveUsersService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService
   ) {}
 
   // In ngOnInit
@@ -155,7 +166,35 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     this.router.navigate(['/user-management/create-user']);
   }
 
-  toggleLock(userId: string) {}
+  toggleLock(userId: number) {
+    this.message = 'Do you want to lock/unlock this user?';
+    this.userIdToLockUnlock = userId;
+    this.showLockunlockConfirmationDialog = true;
+  }
+
+  onConfirmLockUnlockUser() {
+    if (this.userIdToLockUnlock) {
+      this.loaderService.show();
+      this.activeUsersService
+        .lockUnlockUser(this.userIdToLockUnlock)
+        .subscribe({
+          next: (response: LockUnlockResponse) => {
+            if (response.responseCode === 1) {
+              this.successMessage = response.successMessage;
+            } else {
+              this.errorMessage = response.errorMessage;
+            }
+            this.showLockunlockConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+          error: (error) => {
+            console.error(error);
+            this.showLockunlockConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+        });
+    }
+  }
 
   editUser(id: number) {
     console.log('Edit user with ID:', id);
@@ -180,5 +219,6 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   clearConfirmationDialog() {
     this.showSoftDeleteConfirmationDialog = false;
     this.showHardDeleteConfirmationDialog = false;
+    this.showLockunlockConfirmationDialog = false;
   }
 }

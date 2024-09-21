@@ -7,6 +7,13 @@ interface GetUsersListResponse {}
 
 interface CreateUserResponse {}
 
+interface LockUnlockResponse {
+  responseCode: number;
+  successMessage: string;
+  errorMessage: string;
+  statusCode: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,7 +60,32 @@ export class UserManagementService {
       map((response) => response.data),
       catchError((error) => {
         console.error(
-          'Error occurred during getting users list:',
+          'Error occurred during creating new user.:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  lockUnlockUser(id: number): Observable<LockUnlockResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.put<LockUnlockResponse>(
+        `${this.apiUrl}LockUnlockUserAsync/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during locking/unlocking user:',
           error.response ? error.response.data : error.message
         );
         throw error;

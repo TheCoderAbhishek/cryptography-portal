@@ -304,6 +304,14 @@
         </tr>
       </tbody>
     </table>
+
+    <app-confirmation-dialog
+      [message]="message"
+      [isVisible]="showLockunlockConfirmationDialog"
+      (confirm)="onConfirmLockUnlockUser()"
+      (cancel)="clearConfirmationDialog()"
+    ></app-confirmation-dialog>
+
     <app-confirmation-dialog
       [message]="message"
       [isVisible]="showSoftDeleteConfirmationDialog"
