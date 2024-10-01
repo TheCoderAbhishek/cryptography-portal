@@ -151,8 +151,6 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
             };
           });
 
-          console.log('Active users loaded:', this.users);
-
           if (this.users.length === 0) {
             console.warn('No active users found.');
           } else {
