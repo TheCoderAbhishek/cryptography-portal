@@ -39,7 +39,7 @@ interface LockUnlockResponse {
 export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
-  users: any[] = [];
+  users: User[] = [];
   dataTable: DataTable | undefined;
   showSoftDeleteConfirmationDialog = false;
   showHardDeleteConfirmationDialog = false;
@@ -56,23 +56,24 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     private loaderService: LoaderService
   ) {}
 
-  // In ngOnInit
   ngOnInit() {
+    // Subscribe to message service for displaying alerts
     this.messageService.message$.subscribe((message) => {
       if (message) {
         if (message.success) {
           this.successMessage = message.success;
+          console.log('Success message:', this.successMessage);
           setTimeout(() => this.clearMessage(), 3000);
         }
         if (message.error) {
           this.errorMessage = message.error;
+          console.error('Error message:', this.errorMessage);
           setTimeout(() => this.clearMessage(), 3000);
         }
       }
     });
   }
 
-  // Clear the messages
   clearMessage(): void {
     this.successMessage = null;
     this.errorMessage = null;
@@ -86,13 +87,15 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
         this.dataTable.destroy();
       }
 
+      // Initialize the DataTable
       this.dataTable = new DataTable(tableElement as HTMLTableElement, {
         searchable: true,
         perPageSelect: [5, 10, 15],
         sortable: true,
         labels: {
-          placeholder: 'Search...',
-          noRows: 'No entries found',
+          placeholder: 'Search users...',
+          noRows: 'No active users found',
+          info: 'Showing {start} to {end} of {rows} entries',
         },
       });
     }
@@ -133,6 +136,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
               .getSeconds()
               .toString()
               .padStart(2, '0')}`;
+
             return {
               id: user.id,
               userId: user.userId,
@@ -147,8 +151,10 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
             };
           });
 
+          console.log('Active users loaded:', this.users);
+
           if (this.users.length === 0) {
-            console.log('No active users found');
+            console.warn('No active users found.');
           } else {
             setTimeout(() => {
               this.initializeDataTable();
@@ -157,7 +163,8 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
         }
       },
       error: (error) => {
-        console.error('Error fetching users:', error);
+        this.errorMessage = 'Failed to load active users';
+        console.error('Error fetching active users:', error);
       },
     });
   }
