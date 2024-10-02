@@ -22,7 +22,7 @@ interface User {
   createdOn: string;
 }
 
-interface LockUnlockResponse {
+interface ApiResponse {
   responseCode: number;
   successMessage: string;
   errorMessage: string;
@@ -45,6 +45,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   showHardDeleteConfirmationDialog = false;
   showLockunlockConfirmationDialog = false;
   userIdToDelete: number | null = null;
+  userIdToSoftDelete: number | null = null;
   message: string = '';
   userIdToLockUnlock: number | null = null;
 
@@ -183,7 +184,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
       this.activeUsersService
         .lockUnlockUser(this.userIdToLockUnlock)
         .subscribe({
-          next: (response: LockUnlockResponse) => {
+          next: (response: ApiResponse) => {
             if (response.responseCode === 1) {
               this.successMessage = response.successMessage;
             } else {
@@ -208,10 +209,33 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   // Method to handle soft delete
   softDeleteUser(userId: number) {
     this.message = 'Do you want to soft delete this user?';
+    this.userIdToSoftDelete = userId;
     this.showSoftDeleteConfirmationDialog = true;
   }
 
-  onConfirmSoftDelete() {}
+  onConfirmSoftDelete() {
+    if (this.userIdToSoftDelete) {
+      this.loaderService.show();
+      this.activeUsersService
+        .softDeleteUser(this.userIdToSoftDelete)
+        .subscribe({
+          next: (response: ApiResponse) => {
+            if (response.responseCode === 1) {
+              this.successMessage = response.successMessage;
+            } else {
+              this.errorMessage = response.errorMessage;
+            }
+            this.showLockunlockConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+          error: (error) => {
+            console.error(error);
+            this.showLockunlockConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+        });
+    }
+  }
 
   // Method to handle hard delete
   hardDeleteUser(userId: number) {

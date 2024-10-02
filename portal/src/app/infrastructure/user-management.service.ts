@@ -9,7 +9,7 @@ interface GetDeletedUsersListResponse {}
 
 interface CreateUserResponse {}
 
-interface LockUnlockResponse {
+interface ApiResponse {
   responseCode: number;
   successMessage: string;
   errorMessage: string;
@@ -49,11 +49,14 @@ export class UserManagementService {
     const token = this.getToken();
 
     return from(
-      axios.get<GetDeletedUsersListResponse>(`${this.apiUrl}GetDeletedUsersAsync`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      axios.get<GetDeletedUsersListResponse>(
+        `${this.apiUrl}GetDeletedUsersAsync`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
     ).pipe(
       map((response) => response.data),
       catchError((error) => {
@@ -91,11 +94,11 @@ export class UserManagementService {
     );
   }
 
-  lockUnlockUser(id: number): Observable<LockUnlockResponse> {
+  lockUnlockUser(id: number): Observable<ApiResponse> {
     const token = this.getToken();
 
     return from(
-      axios.put<LockUnlockResponse>(
+      axios.put<ApiResponse>(
         `${this.apiUrl}LockUnlockUserAsync/${id}`,
         {},
         {
@@ -109,6 +112,31 @@ export class UserManagementService {
       catchError((error) => {
         console.error(
           'Error occurred during locking/unlocking user:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  softDeleteUser(id: number): Observable<ApiResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.patch<ApiResponse>(
+        `${this.apiUrl}SoftDeleteUserAsync/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during soft deletion of user:',
           error.response ? error.response.data : error.message
         );
         throw error;

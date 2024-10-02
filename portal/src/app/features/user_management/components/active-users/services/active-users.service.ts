@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { UserManagementService } from '../../../../../infrastructure/user-management.service';
 import { Observable } from 'rxjs';
 
-interface LockUnlockResponse {
+interface ApiResponse {
   responseCode: number;
   successMessage: string;
   errorMessage: string;
@@ -70,10 +70,10 @@ export class ActiveUsersService {
     console.error('Error occurred while creating new user:', error);
   }
 
-  lockUnlockUser(id: number): Observable<LockUnlockResponse> {
-    return new Observable<LockUnlockResponse>((observer) => {
+  lockUnlockUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
       this.userManagementService.lockUnlockUser(id).subscribe({
-        next: (response: LockUnlockResponse) => {
+        next: (response: ApiResponse) => {
           // Add correct type here
           observer.next(response);
           observer.complete();
@@ -89,5 +89,26 @@ export class ActiveUsersService {
   // Handle locking/unlocking user error
   private handleLockUnlockUserError(error: any): void {
     console.error('Error occurred while locking/unlocking user:', error);
+  }
+
+  softDeleteUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
+      this.userManagementService.softDeleteUser(id).subscribe({
+        next: (response: ApiResponse) => {
+          // Add correct type here
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleSoftDeleteUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle locking/unlocking user error
+  private handleSoftDeleteUserError(error: any): void {
+    console.error('Error occurred while soft deletion user:', error);
   }
 }
