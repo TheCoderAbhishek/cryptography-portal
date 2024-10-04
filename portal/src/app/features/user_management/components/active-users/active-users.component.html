@@ -201,6 +201,13 @@
 
     <app-confirmation-dialog
       [message]="message"
+      [isVisible]="showEditUserDetailsConfirmationDialog"
+      (confirm)="onConfirmEditUserDetails()"
+      (cancel)="clearConfirmationDialog()"
+    ></app-confirmation-dialog>
+
+    <app-confirmation-dialog
+      [message]="message"
       [isVisible]="showSoftDeleteConfirmationDialog"
       (confirm)="onConfirmSoftDelete()"
       (cancel)="clearConfirmationDialog()"
@@ -212,5 +219,83 @@
       (confirm)="onConfirmHardDelete()"
       (cancel)="clearConfirmationDialog()"
     ></app-confirmation-dialog>
+  </div>
+</div>
+
+<!-- Edit User Details Modal -->
+<div
+  *ngIf="isEditUserModalVisible"
+  class="fixed inset-0 flex items-center justify-center bg-black/50 px-4 py-12 sm:px-6 lg:px-8"
+>
+  <div class="bg-white p-6 rounded-lg shadow-lg sm:max-w-md w-full">
+    <h2 class="text-center text-2xl font-semibold text-gray-900 mb-6">
+      Edit User Details
+    </h2>
+
+    <form (ngSubmit)="onSaveEditUser()" class="space-y-6">
+      <!-- Hidden Id Field -->
+      <div class="hidden">
+        <label class="block text-sm font-medium text-gray-700">Id</label>
+        <input
+          type="number"
+          [(ngModel)]="editedUser.id"
+          name="id"
+          class="mt-1 block w-full appearance-none rounded-md border px-3 py-2 shadow-sm focus:outline-none focus:ring sm:text-sm"
+        />
+      </div>
+
+      <!-- Name Field -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Name</label>
+        <input
+          type="text"
+          [(ngModel)]="editedUser.name"
+          name="name"
+          class="mt-1 block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
+          required
+        />
+      </div>
+
+      <!-- Username Field -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Username</label>
+        <input
+          type="text"
+          [(ngModel)]="editedUser.userName"
+          name="username"
+          class="mt-1 block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
+          required
+        />
+      </div>
+
+      <!-- Email Field -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <input
+          type="email"
+          [(ngModel)]="editedUser.email"
+          name="email"
+          class="mt-1 block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring sm:text-sm"
+          required
+        />
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-between space-x-2">
+        <button
+          type="button"
+          class="flex w-full justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          (click)="closeEditUserModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Edit User
+        </button>
+      </div>
+    </form>
   </div>
 </div>

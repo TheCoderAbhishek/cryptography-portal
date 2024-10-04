@@ -8,6 +8,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LoaderService } from '../../../../shared/services/loader.service';
+import { FormsModule } from '@angular/forms';
 
 interface User {
   id: number;
@@ -32,7 +33,14 @@ interface ApiResponse {
 @Component({
   selector: 'app-active-users',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, RouterModule, ConfirmationDialogComponent],
+  imports: [
+    NgFor,
+    NgIf,
+    NgClass,
+    RouterModule,
+    ConfirmationDialogComponent,
+    FormsModule,
+  ],
   templateUrl: './active-users.component.html',
   styleUrls: ['./active-users.component.css'],
 })
@@ -44,10 +52,14 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   showSoftDeleteConfirmationDialog = false;
   showHardDeleteConfirmationDialog = false;
   showLockunlockConfirmationDialog = false;
+  showEditUserDetailsConfirmationDialog = false;
   userIdToDelete: number | null = null;
   userIdToSoftDelete: number | null = null;
   message: string = '';
   userIdToLockUnlock: number | null = null;
+  userIdToEditUserDetails: number | null = null;
+  isEditUserModalVisible = false;
+  editedUser: any = {};
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -202,8 +214,37 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  editUser(id: number) {
-    console.log('Edit user with ID:', id);
+  editUser(userId: number) {
+    this.message = 'Do you want to edit user details?';
+    this.userIdToEditUserDetails = userId;
+    this.showEditUserDetailsConfirmationDialog = true;
+  }
+
+  onConfirmEditUserDetails() {
+    const userToEdit = this.users.find(
+      (user) => user.id === this.userIdToEditUserDetails
+    );
+    if (userToEdit) {
+      this.editedUser = { ...userToEdit };
+      this.isEditUserModalVisible = true;
+    }
+  }
+
+  onSaveEditUser() {
+    // Update the user list with edited user data
+    const index = this.users.findIndex(
+      (user) => user.id === this.editedUser.id
+    );
+    if (index > -1) {
+      this.users[index] = { ...this.editedUser };
+      this.isEditUserModalVisible = false;
+    }
+  }
+
+  // Method to close modal without saving
+  closeEditUserModal() {
+    this.isEditUserModalVisible = false;
+    this.showEditUserDetailsConfirmationDialog = false;
   }
 
   // Method to handle soft delete
@@ -247,6 +288,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
 
   clearConfirmationDialog() {
     this.showSoftDeleteConfirmationDialog = false;
+    this.showEditUserDetailsConfirmationDialog = false;
     this.showHardDeleteConfirmationDialog = false;
     this.showLockunlockConfirmationDialog = false;
   }
