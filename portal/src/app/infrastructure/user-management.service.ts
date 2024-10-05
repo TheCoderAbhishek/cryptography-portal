@@ -9,6 +9,8 @@ interface GetDeletedUsersListResponse {}
 
 interface CreateUserResponse {}
 
+interface UpdateUserDetailsResponse {}
+
 interface ApiResponse {
   responseCode: number;
   successMessage: string;
@@ -87,6 +89,33 @@ export class UserManagementService {
       catchError((error) => {
         console.error(
           'Error occurred during creating new user.:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
+  updateUserDetails(
+    inUpdateUserDetails: any
+  ): Observable<UpdateUserDetailsResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.put<UpdateUserDetailsResponse>(
+        `${this.apiUrl}UpdateUserDetailsAsync`,
+        inUpdateUserDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during updating user details.:',
           error.response ? error.response.data : error.message
         );
         throw error;

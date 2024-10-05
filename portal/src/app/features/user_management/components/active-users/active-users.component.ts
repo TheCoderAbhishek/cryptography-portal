@@ -9,6 +9,7 @@ import { MessageService } from '../../services/message.service';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { FormsModule } from '@angular/forms';
+import { InUpdateUserDetails } from '../../models/InUpdateUserDetails';
 
 interface User {
   id: number;
@@ -59,7 +60,12 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   userIdToLockUnlock: number | null = null;
   userIdToEditUserDetails: number | null = null;
   isEditUserModalVisible = false;
-  editedUser: any = {};
+  editedUser: InUpdateUserDetails = {
+    id: 0,
+    name: '',
+    userName: '',
+    email: '',
+  };
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -231,14 +237,44 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   }
 
   onSaveEditUser() {
-    // Update the user list with edited user data
-    const index = this.users.findIndex(
-      (user) => user.id === this.editedUser.id
+    const updateUserPayload: InUpdateUserDetails = {
+      id: this.editedUser.id,
+      name: this.editedUser.name,
+      userName: this.editedUser.userName,
+      email: this.editedUser.email,
+    };
+
+    // Show a loader while saving user details
+    this.loaderService.show();
+
+    // Call the API to update the user details
+    this.activeUsersService.updateUserDetails(updateUserPayload).subscribe(
+      (response: any) => {
+        // Hide loader once response is received
+        this.loaderService.hide();
+
+        if (response.responseCode === 1) {
+          // Show success message and update the user list
+          this.successMessage = response.successMessage;
+
+          // Close the modal
+          this.closeEditUserModal();
+        } else {
+          // Handle error and show error message
+          this.errorMessage =
+            response.errorMessage || 'Failed to update user details';
+          // Close the modal
+          this.closeEditUserModal();
+        }
+      },
+      (error) => {
+        // Hide loader and show error message in case of a failure
+        this.loaderService.hide();
+        this.errorMessage = 'An error occurred while updating the user details';
+        this.messageService.setMessage(this.errorMessage);
+        console.error('Error updating user:', error);
+      }
     );
-    if (index > -1) {
-      this.users[index] = { ...this.editedUser };
-      this.isEditUserModalVisible = false;
-    }
   }
 
   // Method to close modal without saving

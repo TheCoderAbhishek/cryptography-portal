@@ -70,6 +70,28 @@ export class ActiveUsersService {
     console.error('Error occurred while creating new user:', error);
   }
 
+  updateUserDetails(inUpdateUserDetails: any) {
+    return new Observable((observer) => {
+      this.userManagementService
+        .updateUserDetails(inUpdateUserDetails)
+        .subscribe({
+          next: (response) => {
+            observer.next(response);
+            observer.complete();
+          },
+          error: (error) => {
+            this.handleUpdateUserDetailsError(error);
+            observer.error(error);
+          },
+        });
+    });
+  }
+
+  // Handle create new user error
+  private handleUpdateUserDetailsError(error: any): void {
+    console.error('Error occurred while updating user details:', error);
+  }
+
   lockUnlockUser(id: number): Observable<ApiResponse> {
     return new Observable<ApiResponse>((observer) => {
       this.userManagementService.lockUnlockUser(id).subscribe({
