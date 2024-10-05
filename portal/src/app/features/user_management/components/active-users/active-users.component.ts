@@ -265,6 +265,9 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
           this.emailErrorMessage = response.errorMessage;
         } else if (response.responseCode === 3) {
           this.usernameErrorMessage = response.errorMessage;
+        } else if (response.responseCode === 4) {
+          this.emailErrorMessage = 'Email address already exists.';
+          this.usernameErrorMessage = 'Username already exists.';
         } else {
           // Handle error and show error message
           this.errorMessage =
