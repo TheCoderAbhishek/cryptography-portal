@@ -232,32 +232,43 @@
 
     <form (ngSubmit)="onSaveEditUser()">
       <div class="mb-4 hidden">
-        <label class="block text-sm font-medium text-gray-700">Id</label>
+        <label class="block text-sm font-medium text-gray-700" for="id"
+          >Id</label
+        >
         <input
           type="number"
           [(ngModel)]="editedUser.id"
           name="id"
+          id="id"
           class="mt-1 p-2 w-full border border-gray-300 rounded-md"
           required
         />
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Name</label>
+        <label class="block text-sm font-medium text-gray-700" for="name"
+          >Name</label
+        >
         <input
           type="text"
           [(ngModel)]="editedUser.name"
           name="name"
+          id="name"
+          autocomplete="name"
           class="mt-1 p-2 w-full border border-gray-300 rounded-md"
           required
         />
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Username</label>
+        <label class="block text-sm font-medium text-gray-700" for="username"
+          >Username</label
+        >
         <div class="mt-1">
           <input
             type="text"
             [(ngModel)]="editedUser.userName"
             name="username"
+            id="username"
+            autocomplete="username"
             class="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
           />
@@ -267,12 +278,16 @@
         </div>
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <label class="block text-sm font-medium text-gray-700" for="email"
+          >Email</label
+        >
         <div class="mt-1">
           <input
             type="email"
             [(ngModel)]="editedUser.email"
             name="email"
+            id="email"
+            autocomplete="email"
             class="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
           />
