@@ -66,6 +66,8 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
     userName: '',
     email: '',
   };
+  usernameErrorMessage: string | null = null;
+  emailErrorMessage: string | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -259,6 +261,10 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
 
           // Close the modal
           this.closeEditUserModal();
+        } else if (response.responseCode === 2) {
+          this.emailErrorMessage = response.errorMessage;
+        } else if (response.responseCode === 3) {
+          this.usernameErrorMessage = response.errorMessage;
         } else {
           // Handle error and show error message
           this.errorMessage =
@@ -281,6 +287,8 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   closeEditUserModal() {
     this.isEditUserModalVisible = false;
     this.showEditUserDetailsConfirmationDialog = false;
+    this.usernameErrorMessage = '';
+    this.emailErrorMessage = '';
   }
 
   // Method to handle soft delete
