@@ -129,8 +129,29 @@ export class ActiveUsersService {
     });
   }
 
-  // Handle locking/unlocking user error
+  // Handle soft delete user error
   private handleSoftDeleteUserError(error: any): void {
+    console.error('Error occurred while soft deletion user:', error);
+  }
+
+  hardDeleteUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
+      this.userManagementService.hardDeleteUser(id).subscribe({
+        next: (response: ApiResponse) => {
+          // Add correct type here
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleHardDeleteUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle hard delete user error
+  private handleHardDeleteUserError(error: any): void {
     console.error('Error occurred while soft deletion user:', error);
   }
 }

@@ -56,6 +56,7 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   showEditUserDetailsConfirmationDialog = false;
   userIdToDelete: number | null = null;
   userIdToSoftDelete: number | null = null;
+  userIdToHardDelete: number | null = null;
   message: string = '';
   userIdToLockUnlock: number | null = null;
   userIdToEditUserDetails: number | null = null;
@@ -313,12 +314,12 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
             } else {
               this.errorMessage = response.errorMessage;
             }
-            this.showLockunlockConfirmationDialog = false;
+            this.showSoftDeleteConfirmationDialog = false;
             this.loaderService.hide();
           },
           error: (error) => {
             console.error(error);
-            this.showLockunlockConfirmationDialog = false;
+            this.showSoftDeleteConfirmationDialog = false;
             this.loaderService.hide();
           },
         });
@@ -328,10 +329,33 @@ export class ActiveUsersComponent implements AfterViewInit, OnDestroy {
   // Method to handle hard delete
   hardDeleteUser(userId: number) {
     this.message = 'Do you want to permanently delete this user?';
+    this.userIdToHardDelete = userId;
     this.showHardDeleteConfirmationDialog = true;
   }
 
-  onConfirmHardDelete() {}
+  onConfirmHardDelete() {
+    if (this.userIdToHardDelete) {
+      this.loaderService.show();
+      this.activeUsersService
+        .hardDeleteUser(this.userIdToHardDelete)
+        .subscribe({
+          next: (response: ApiResponse) => {
+            if (response.responseCode === 1) {
+              this.successMessage = response.successMessage;
+            } else {
+              this.errorMessage = response.errorMessage;
+            }
+            this.showHardDeleteConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+          error: (error) => {
+            console.error(error);
+            this.showHardDeleteConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+        });
+    }
+  }
 
   clearConfirmationDialog() {
     this.showSoftDeleteConfirmationDialog = false;

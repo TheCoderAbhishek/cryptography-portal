@@ -173,6 +173,27 @@ export class UserManagementService {
     );
   }
 
+  hardDeleteUser(id: number): Observable<ApiResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.delete<ApiResponse>(`${this.apiUrl}HardDeleteUserAsync/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during hard deletion of user:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
   getToken(): string | null {
     return sessionStorage.getItem('authToken');
   }
