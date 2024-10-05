@@ -19,7 +19,7 @@
         </a>
       </li>
 
-      <!-- Profile with Sub-menu -->
+      <!-- User Management with Sub-menu -->
       <li>
         <button
           (click)="toggleDropdown('profile')"
@@ -54,6 +54,55 @@
             >
               <i class="fa-solid fa-user-xmark text-indigo-600 w-5"></i>
               <span class="ml-3">Inactive Users</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Key Management with Sub-menu -->
+      <li>
+        <button
+          (click)="toggleKeyManagementDropdown('profile')"
+          class="flex items-center justify-between p-2 w-full text-gray-900 rounded-lg hover:bg-gray-100"
+        >
+          <div class="flex items-center">
+            <i class="fa-solid fa-shield-halved text-indigo-600 w-5"></i>
+            <span class="ml-3">Key Management</span>
+          </div>
+          <i
+            [ngClass]="{
+              'fa-chevron-down': !isKeyManagementDropdownOpen['profile'],
+              'fa-chevron-up': isKeyManagementDropdownOpen['profile']
+            }"
+            class="fa text-gray-700 w-4"
+          ></i>
+        </button>
+        <ul
+          *ngIf="isKeyManagementDropdownOpen['profile']"
+          class="space-y-2 pl-6 mt-2"
+        >
+          <li>
+            <a
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+            >
+              <i class="fa-solid fa-key text-indigo-600 w-5"></i>
+              <span class="ml-3">Key List</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+            >
+              <i class="fa-solid fa-certificate text-indigo-600 w-5"></i>
+              <span class="ml-3">Certificate List</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
+            >
+              <i class="fa-solid fa-unlock-keyhole text-indigo-600 w-5"></i>
+              <span class="ml-3">Secret List</span>
             </a>
           </li>
         </ul>
