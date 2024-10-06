@@ -6,6 +6,8 @@ import { RegisterComponent } from './features/account/components/register/regist
 import { OtpGenerateComponent } from './features/account/components/otp-generate/otp-generate.component';
 import { OtpVerifyComponent } from './features/account/components/otp-verify/otp-verify.component';
 import { ActiveUsersComponent } from './features/user_management/components/active-users/active-users.component';
+import { CreateUserComponent } from './features/user_management/components/active-users/create-user/create-user.component';
+import { InactiveUsersComponent } from './features/user_management/components/inactive-users/inactive-users.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -20,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'user-management',
     component: MainLayoutComponent,
-    children: [{ path: 'active-users', component: ActiveUsersComponent }],
+    children: [
+      { path: 'active-users', component: ActiveUsersComponent },
+      { path: 'create-user', component: CreateUserComponent },
+      { path: 'inactive-users', component: InactiveUsersComponent },
+    ],
   },
 ];

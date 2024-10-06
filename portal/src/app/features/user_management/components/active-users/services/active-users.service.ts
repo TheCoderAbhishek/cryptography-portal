@@ -3,6 +3,13 @@ import { Router } from '@angular/router';
 import { UserManagementService } from '../../../../../infrastructure/user-management.service';
 import { Observable } from 'rxjs';
 
+interface ApiResponse {
+  responseCode: number;
+  successMessage: string;
+  errorMessage: string;
+  statusCode: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,5 +44,114 @@ export class ActiveUsersService {
   // Handle fetching users error
   private handleGetUsersError(error: any): void {
     console.error('Error occurred while getting users list:', error);
+  }
+
+  createNewUser(inCreateUser: any) {
+    return new Observable((observer) => {
+      this.userManagementService.createNewUser(inCreateUser).subscribe({
+        next: (response) => {
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleCreateNewUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  public handleCreateNewUserSuccess(): void {
+    this.router.navigate(['/user-management/active-users']);
+  }
+
+  // Handle create new user error
+  private handleCreateNewUserError(error: any): void {
+    console.error('Error occurred while creating new user:', error);
+  }
+
+  updateUserDetails(inUpdateUserDetails: any) {
+    return new Observable((observer) => {
+      this.userManagementService
+        .updateUserDetails(inUpdateUserDetails)
+        .subscribe({
+          next: (response) => {
+            observer.next(response);
+            observer.complete();
+          },
+          error: (error) => {
+            this.handleUpdateUserDetailsError(error);
+            observer.error(error);
+          },
+        });
+    });
+  }
+
+  // Handle create new user error
+  private handleUpdateUserDetailsError(error: any): void {
+    console.error('Error occurred while updating user details:', error);
+  }
+
+  lockUnlockUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
+      this.userManagementService.lockUnlockUser(id).subscribe({
+        next: (response: ApiResponse) => {
+          // Add correct type here
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleLockUnlockUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle locking/unlocking user error
+  private handleLockUnlockUserError(error: any): void {
+    console.error('Error occurred while locking/unlocking user:', error);
+  }
+
+  softDeleteUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
+      this.userManagementService.softDeleteUser(id).subscribe({
+        next: (response: ApiResponse) => {
+          // Add correct type here
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleSoftDeleteUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle soft delete user error
+  private handleSoftDeleteUserError(error: any): void {
+    console.error('Error occurred while soft deletion user:', error);
+  }
+
+  hardDeleteUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
+      this.userManagementService.hardDeleteUser(id).subscribe({
+        next: (response: ApiResponse) => {
+          // Add correct type here
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleHardDeleteUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle hard delete user error
+  private handleHardDeleteUserError(error: any): void {
+    console.error('Error occurred while soft deletion user:', error);
   }
 }

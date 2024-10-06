@@ -27,3 +27,5 @@ ng generate service features/account/components/register/services/register-servi
 ng generate service features/account/components/otp-generate/services/otp-generate --skip-tests
 
 ng generate service features/account/components/otp-verify/services/otp-verify --skip-tests
+
+ng generate service features/user_management/components/inactive-users/services/inactive-users --skip-tests

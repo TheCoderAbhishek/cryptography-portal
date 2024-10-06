@@ -1,1 +1,173 @@
-<p>inactive-users works!</p>
+<div class="bg-gray-50 p-4 rounded-2xl">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="p-2 font-semibold text-2xl">User Management</h1>
+    <nav class="text-gray-600">
+      <ol class="flex space-x-2">
+        <li>
+          <a href="/dashboard" class="hover:text-indigo-700">
+            <i class="fa-solid fa-house text-sm"></i>
+          </a>
+        </li>
+        <li>/</li>
+        <li>
+          <a class="hover:text-indigo-700 text-sm">User Management</a>
+        </li>
+        <li>/</li>
+        <li>
+          <span class="text-gray-400 text-sm">Inactive Users List</span>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <!-- Success Alert Message -->
+  <div *ngIf="successMessage" class="w-full mb-4">
+    <div
+      class="bg-green-200 border border-green-500 text-green-800 px-4 py-3 rounded-lg flex justify-between items-center shadow-lg transition duration-300 ease-in-out"
+      role="alert"
+    >
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2 text-green-600"></i>
+        <span>{{ successMessage }}</span>
+      </div>
+      <button
+        (click)="clearMessage()"
+        class="text-green-600 hover:text-green-800 transition duration-200"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Alert Message -->
+  <div *ngIf="errorMessage" class="w-full mb-4">
+    <div
+      class="bg-red-200 border border-red-500 text-red-800 px-4 py-3 rounded-lg flex justify-between items-center shadow-lg transition duration-300 ease-in-out"
+      role="alert"
+    >
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-triangle mr-2 text-red-600"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <button
+        (click)="clearMessage()"
+        class="text-red-600 hover:text-red-800 transition duration-200"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white shadow rounded-lg overflow-hidden p-4">
+    <!-- Title with Create User button -->
+    <div class="flex items-center justify-between mb-2">
+      <h1 class="p-2 font-semibold text-xl">Inactive Users List</h1>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table
+        id="inactive-user-table"
+        class="min-w-full divide-y divide-gray-200"
+      >
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              Sr<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
+            </th>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              Name<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
+            </th>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              Username<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
+            </th>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              Email<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
+            </th>
+            <th class="p-4 text-left text-gray-700 font-medium">Role</th>
+            <th class="p-4 text-left text-gray-700 font-medium">Active</th>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              Deleted On<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
+            </th>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              Auto Deleted On<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
+            </th>
+            <th class="p-4 text-left text-gray-700 font-medium">
+              <span class="flex items-center cursor-pointer">Actions</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngIf="users.length === 0">
+            <td colspan="100%" class="p-4 text-center text-gray-500">
+              No active users found.
+            </td>
+          </tr>
+          <tr *ngFor="let user of users; let i = index">
+            <td class="p-4 text-gray-600">{{ i + 1 }}</td>
+            <td class="p-4 text-gray-600">{{ user.name }}</td>
+            <td class="p-4 text-gray-600">{{ user.userName }}</td>
+            <td class="p-4 text-gray-600">{{ user.email }}</td>
+            <td class="p-4">
+              <span
+                class="px-2 py-1 text-xs flex items-center rounded-full gap-2"
+                [ngClass]="{
+                  'bg-yellow-100 text-yellow-800': user.roleId === 0,
+                  'bg-blue-100 text-indigo-800': user.roleId === 1,
+                  'bg-green-100 text-green-800': user.roleId === 2,
+                  'bg-red-100 text-red-800': user.roleId === 3
+                }"
+              >
+                <i
+                  class="fa-solid"
+                  [ngClass]="{
+                    'fa-user-slash': user.roleId === 0,
+                    'fa-user': user.roleId === 1,
+                    'fa-user-tie': user.roleId === 2,
+                    'fa-user-shield': user.roleId === 3
+                  }"
+                ></i>
+                {{
+                  user.roleId === 0
+                    ? "Viewer"
+                    : user.roleId === 1
+                    ? "User"
+                    : user.roleId === 2
+                    ? "Admin"
+                    : "SuperAdmin"
+                }}
+              </span>
+            </td>
+            <td class="p-4">
+              <span *ngIf="user.isActive; else inactive" class="text-green-500">
+                <i class="fa-regular fa-circle-check"></i>
+              </span>
+              <ng-template #inactive>
+                <span class="text-red-500">
+                  <i class="fa-regular fa-circle-xmark"></i>
+                </span>
+              </ng-template>
+            </td>
+
+            <td class="p-4 text-gray-600">{{ user.deletedOn }}</td>
+            <td class="p-4 text-gray-600">{{ user.autoDeletedOn }}</td>
+            <td class="p-4 text-gray-600 flex">
+              <button
+                class="bg-green-500 text-white text-xs p-2 rounded-md hover:bg-green-700"
+                title="Restore User"
+                (click)="restoreUser(user.id)"
+              >
+                <i class="fa-solid fa-trash-can-arrow-up"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-confirmation-dialog
+      [message]="message"
+      [isVisible]="showRestoreUserConfirmationDialog"
+      (confirm)="onConfirmRestoreUser()"
+      (cancel)="clearConfirmationDialog()"
+    ></app-confirmation-dialog>
+  </div>
+</div>

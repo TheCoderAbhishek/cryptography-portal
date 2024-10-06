@@ -18,11 +18,24 @@ export class SidebarComponent {
     profile: false,
   };
 
+  isKeyManagementDropdownOpen: { [key: string]: boolean } = {
+    profile: false,
+  };
+
   toggleDropdown(menu: string) {
     this.isDropdownOpen[menu] = !this.isDropdownOpen[menu];
   }
 
+  toggleKeyManagementDropdown(menu: string) {
+    this.isKeyManagementDropdownOpen[menu] =
+      !this.isKeyManagementDropdownOpen[menu];
+  }
+
   fetchActiveUsers(): void {
     this.router.navigate(['/user-management/active-users']);
+  }
+
+  fetchInactiveUsers(): void {
+    this.router.navigate(['/user-management/inactive-users']);
   }
 }
