@@ -25,6 +25,13 @@ interface User {
   autoDeletedOn: string;
 }
 
+interface ApiResponse {
+  responseCode: number;
+  successMessage: string;
+  errorMessage: string;
+  statusCode: number;
+}
+
 @Component({
   selector: 'app-inactive-users',
   standalone: true,
@@ -165,7 +172,29 @@ export class InactiveUsersComponent implements AfterViewInit, OnDestroy {
     this.showRestoreUserConfirmationDialog = true;
   }
 
-  onConfirmRestoreUser() {}
+  onConfirmRestoreUser() {
+    if (this.userIdRestoreSoftDelete) {
+      this.loaderService.show();
+      this.inactiveUsersService
+        .restoreSoftDeletedUser(this.userIdRestoreSoftDelete)
+        .subscribe({
+          next: (response: ApiResponse) => {
+            if (response.responseCode === 1) {
+              this.successMessage = response.successMessage;
+            } else {
+              this.errorMessage = response.errorMessage;
+            }
+            this.showRestoreUserConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+          error: (error) => {
+            console.error(error);
+            this.showRestoreUserConfirmationDialog = false;
+            this.loaderService.hide();
+          },
+        });
+    }
+  }
 
   clearConfirmationDialog() {
     this.showRestoreUserConfirmationDialog = false;
