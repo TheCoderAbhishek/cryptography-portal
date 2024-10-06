@@ -1,10 +1,17 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import { DataTable } from 'simple-datatables';
 import { InactiveUsersService } from './services/inactive-users.service';
 import { MessageService } from '../../services/message.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { isPlatformBrowser, NgClass, NgFor, NgIf } from '@angular/common';
+import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 interface User {
   id: number;
@@ -21,15 +28,18 @@ interface User {
 @Component({
   selector: 'app-inactive-users',
   standalone: true,
-  imports: [NgIf, NgClass, NgFor],
+  imports: [NgIf, NgClass, NgFor, ConfirmationDialogComponent],
   templateUrl: './inactive-users.component.html',
   styleUrl: './inactive-users.component.css',
 })
-export class InactiveUsersComponent {
+export class InactiveUsersComponent implements AfterViewInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   users: any[] = [];
   dataTable: DataTable | undefined;
+  message: string = '';
+  showRestoreUserConfirmationDialog = false;
+  userIdRestoreSoftDelete: number | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -53,13 +63,15 @@ export class InactiveUsersComponent {
         this.dataTable.destroy();
       }
 
+      // Initialize the DataTable
       this.dataTable = new DataTable(tableElement as HTMLTableElement, {
         searchable: true,
         perPageSelect: [5, 10, 15],
         sortable: true,
         labels: {
-          placeholder: 'Search...',
-          noRows: 'No entries found',
+          placeholder: 'Search users...',
+          noRows: 'No active users found',
+          info: 'Showing {start} to {end} of {rows} entries',
         },
       });
     }
@@ -147,5 +159,15 @@ export class InactiveUsersComponent {
     });
   }
 
-  restoreUser(id: number) {}
+  restoreUser(userId: number) {
+    this.message = 'Do you want to restore this user?';
+    this.userIdRestoreSoftDelete = userId;
+    this.showRestoreUserConfirmationDialog = true;
+  }
+
+  onConfirmRestoreUser() {}
+
+  clearConfirmationDialog() {
+    this.showRestoreUserConfirmationDialog = false;
+  }
 }

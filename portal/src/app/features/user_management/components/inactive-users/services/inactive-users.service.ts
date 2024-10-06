@@ -3,6 +3,13 @@ import { UserManagementService } from '../../../../../infrastructure/user-manage
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
+interface ApiResponse {
+  responseCode: number;
+  successMessage: string;
+  errorMessage: string;
+  statusCode: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -40,5 +47,26 @@ export class InactiveUsersService {
       'Error occurred while getting soft deleted users list:',
       error
     );
+  }
+
+  restoreSoftDeletedUser(id: number): Observable<ApiResponse> {
+    return new Observable<ApiResponse>((observer) => {
+      this.userManagementService.restoreSoftDeleteUser(id).subscribe({
+        next: (response: ApiResponse) => {
+          // Add correct type here
+          observer.next(response);
+          observer.complete();
+        },
+        error: (error) => {
+          this.handleRestoreSoftDeletedUserError(error);
+          observer.error(error);
+        },
+      });
+    });
+  }
+
+  // Handle fetching soft deleted users error
+  private handleRestoreSoftDeletedUserError(error: any): void {
+    console.error('Error occurred while restoring soft deleted user:', error);
   }
 }

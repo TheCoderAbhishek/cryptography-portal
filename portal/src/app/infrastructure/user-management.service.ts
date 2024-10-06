@@ -148,6 +148,31 @@ export class UserManagementService {
     );
   }
 
+  restoreSoftDeleteUser(id: number): Observable<ApiResponse> {
+    const token = this.getToken();
+
+    return from(
+      axios.patch<ApiResponse>(
+        `${this.apiUrl}RestoreSoftDeleteUserAsync/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    ).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error(
+          'Error occurred during restore soft deleted user:',
+          error.response ? error.response.data : error.message
+        );
+        throw error;
+      })
+    );
+  }
+
   softDeleteUser(id: number): Observable<ApiResponse> {
     const token = this.getToken();
 
