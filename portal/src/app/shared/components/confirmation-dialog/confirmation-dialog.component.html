@@ -1,18 +1,22 @@
 <div
   *ngIf="isVisible"
   class="fixed inset-0 flex items-center justify-center bg-black/50"
+  (click)="onCancel()"
 >
-  <div class="bg-white p-6 rounded-lg border border-stone-700 shadow-lg">
-    <p class="text-md">{{ message }}</p>
+  <div
+    class="bg-white p-6 rounded-md border border-stone-700 shadow-lg max-w-md w-full"
+    (click)="$event.stopPropagation()"
+  >
+    <p class="text-md text-gray-800">{{ message }}</p>
     <div class="flex justify-end mt-4">
       <button
-        class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700 text-sm"
+        class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700 text-sm transition-colors"
         (click)="onConfirm()"
       >
         Confirm
       </button>
       <button
-        class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-700 text-sm"
+        class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-700 text-sm transition-colors"
         (click)="onCancel()"
       >
         Cancel
