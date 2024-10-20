@@ -8,6 +8,7 @@ import { OtpVerifyComponent } from './features/account/components/otp-verify/otp
 import { ActiveUsersComponent } from './features/user_management/components/active-users/active-users.component';
 import { CreateUserComponent } from './features/user_management/components/active-users/create-user/create-user.component';
 import { InactiveUsersComponent } from './features/user_management/components/inactive-users/inactive-users.component';
+import { KeyListComponent } from './features/key-management/components/key-list/key-list.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -26,6 +27,13 @@ export const routes: Routes = [
       { path: 'active-users', component: ActiveUsersComponent },
       { path: 'create-user', component: CreateUserComponent },
       { path: 'inactive-users', component: InactiveUsersComponent },
+    ],
+  },
+  {
+    path: 'key-management',
+    component: MainLayoutComponent,
+    children: [
+      { path: 'key-list', component: KeyListComponent },
     ],
   },
 ];

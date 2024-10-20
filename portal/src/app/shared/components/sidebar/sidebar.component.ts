@@ -38,4 +38,8 @@ export class SidebarComponent {
   fetchInactiveUsers(): void {
     this.router.navigate(['/user-management/inactive-users']);
   }
+
+  fetchKeyList(): void {
+    this.router.navigate(['/key-management/key-list']);
+  }
 }
