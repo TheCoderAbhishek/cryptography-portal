@@ -18,6 +18,7 @@ import { MessageService } from '../../../user_management/services/message.servic
 import { Router } from '@angular/router';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { KeyListService } from './services/key-list.service';
+import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 interface Keys {
   id: number;
@@ -34,15 +35,27 @@ interface Keys {
 @Component({
   selector: 'app-key-list',
   standalone: true,
-  imports: [NgClass, NgIf, NgFor, NgStyle, FormsModule],
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    NgStyle,
+    FormsModule,
+    ConfirmationDialogComponent,
+  ],
   templateUrl: './key-list.component.html',
   styleUrl: './key-list.component.css',
 })
 export class KeyListComponent implements AfterViewInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  message: string = '';
   keys: Keys[] = [];
   dataTable: DataTable | undefined;
+  showExportKeyConfirmationDialog = false;
+  keyIdToActions: number | null = null;
+  showSoftDeleteConfirmationDialog = false;
+  showHardDeleteConfirmationDialog = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -167,5 +180,35 @@ export class KeyListComponent implements AfterViewInit, OnDestroy {
         console.error('Error fetching keys List:', error);
       },
     });
+  }
+
+  exportKey(keyId: number) {
+    this.message = 'Do you want to export key into file?';
+    this.keyIdToActions = keyId;
+    this.showExportKeyConfirmationDialog = true;
+  }
+
+  onConfirmExportKey() {}
+
+  softDeleteKey(keyId: number) {
+    this.message = 'Do you want to soft delete key?';
+    this.keyIdToActions = keyId;
+    this.showSoftDeleteConfirmationDialog = true;
+  }
+
+  onConfirmSoftDeleteKey() {}
+
+  hardDeleteKey(keyId: number) {
+    this.message = 'Do you want to delete key?';
+    this.keyIdToActions = keyId;
+    this.showHardDeleteConfirmationDialog = true;
+  }
+
+  onConfirmHardDeleteKey() {}
+
+  clearConfirmationDialog() {
+    this.showExportKeyConfirmationDialog = false;
+    this.showSoftDeleteConfirmationDialog = false;
+    this.showHardDeleteConfirmationDialog = false;
   }
 }

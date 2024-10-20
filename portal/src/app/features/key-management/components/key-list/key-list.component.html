@@ -179,12 +179,21 @@
             <td class="p-4 flex space-x-2">
               <button
                 class="bg-gray-500 text-white text-xs p-2 rounded-md hover:bg-gray-700"
+                (click)="exportKey(key.id)"
                 title="Export Key"
               >
                 <i class="fa-solid fa-file-export"></i>
               </button>
               <button
+                class="bg-rose-500 text-white text-xs p-2 rounded-md hover:bg-rose-700"
+                (click)="softDeleteKey(key.id)"
+                title="Soft Delete Key"
+              >
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+              <button
                 class="bg-red-500 text-white text-xs p-2 rounded-md hover:bg-red-700"
+                (click)="hardDeleteKey(key.id)"
                 title="Delete Key"
               >
                 <i class="fa-solid fa-trash-can"></i>
@@ -195,4 +204,22 @@
       </table>
     </div>
   </div>
+  <app-confirmation-dialog
+    [message]="message"
+    [isVisible]="showExportKeyConfirmationDialog"
+    (confirm)="onConfirmExportKey()"
+    (cancel)="clearConfirmationDialog()"
+  ></app-confirmation-dialog>
+  <app-confirmation-dialog
+    [message]="message"
+    [isVisible]="showSoftDeleteConfirmationDialog"
+    (confirm)="onConfirmSoftDeleteKey()"
+    (cancel)="clearConfirmationDialog()"
+  ></app-confirmation-dialog>
+  <app-confirmation-dialog
+    [message]="message"
+    [isVisible]="showHardDeleteConfirmationDialog"
+    (confirm)="onConfirmHardDeleteKey()"
+    (cancel)="clearConfirmationDialog()"
+  ></app-confirmation-dialog>
 </div>
