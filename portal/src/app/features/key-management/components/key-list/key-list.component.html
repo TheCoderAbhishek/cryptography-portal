@@ -137,18 +137,36 @@
             <td class="p-4">
               <span
                 [ngClass]="{
-                  'bg-indigo-100 text-indigo-800': key.keySize === 128,
+                  'bg-green-100 text-green-800': key.keySize === 64,
+                  'bg-emerald-100 text-emerald-800': key.keySize === 112,
+                  'bg-teal-100 text-teal-800': key.keySize === 128,
+                  'bg-cyan-100 text-cyan-800': key.keySize === 168,
+                  'bg-sky-100 text-sky-800': key.keySize === 192,
                   'bg-blue-100 text-blue-800': key.keySize === 256,
-                  'bg-green-100 text-green-800': key.keySize === 512
+                  'bg-indigo-100 text-indigo-800': key.keySize === 512,
+                  'bg-violet-100 text-violet-800': key.keySize === 160,
+                  'bg-purple-100 text-purple-800': key.keySize === 224,
+                  'bg-fuchsia-100 text-fuchsia-800': key.keySize === 384,
+                  'bg-pink-100 text-pink-800': key.keySize === 521,
+                  'bg-rose-100 text-rose-800': key.keySize === 1024,
+                  'bg-lime-100 text-lime-800': key.keySize === 2048,
+                  'bg-yellow-100 text-yellow-800': key.keySize === 3072,
+                  'bg-amber-100 text-amber-800': key.keySize === 4096,
                 }"
                 class="inline-block px-4 py-1 rounded-full text-xs font-semibold tracking-wide"
               >
-                {{ key.keySize }}-bit
+                {{ key.keySize }}
               </span>
             </td>
             <td class="p-4 text-gray-600">{{ key.keyOwner }}</td>
             <td class="p-4 text-gray-600">{{ key.keyCreatedOn }}</td>
             <td class="p-4 flex space-x-2">
+              <button
+                class="bg-gray-500 text-white text-xs p-2 rounded-md hover:bg-gray-700"
+                title="Export Key"
+              >
+                <i class="fa-solid fa-file-export"></i>
+              </button>
               <button
                 class="bg-red-500 text-white text-xs p-2 rounded-md hover:bg-red-700"
                 title="Delete Key"
