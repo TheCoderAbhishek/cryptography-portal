@@ -110,7 +110,6 @@ export class KeyListComponent implements AfterViewInit, OnDestroy {
   fetchKeysList(): void {
     this.keyListService.getKeysList().subscribe({
       next: (response) => {
-        console.log(response.returnValue.$values);
         if (response.returnValue && response.returnValue.$values) {
           this.keys = response.returnValue.$values.map((keys: Keys) => {
             const createdOn = new Date(keys.keyCreatedOn);
