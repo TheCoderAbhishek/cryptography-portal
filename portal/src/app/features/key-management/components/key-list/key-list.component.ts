@@ -131,11 +131,18 @@ export class KeyListComponent implements AfterViewInit, OnDestroy {
               .toString()
               .padStart(2, '0')}`;
 
+            const pascalCaseKeyType = keys.keyType.replace(
+              /(?:^|\s)\w/g,
+              function (match) {
+                return match.toUpperCase();
+              }
+            );
+
             return {
               id: keys.id,
               keyName: keys.keyName,
-              keyType: keys.keyType,
-              keyAlgorithm: keys.keyAlgorithm,
+              keyType: pascalCaseKeyType,
+              keyAlgorithm: keys.keyAlgorithm.toUpperCase(),
               keySize: keys.keySize,
               keyOwner: keys.keyOwner,
               keyCreatedOn: formattedDate,
