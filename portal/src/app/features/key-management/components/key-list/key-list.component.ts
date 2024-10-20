@@ -1,4 +1,10 @@
-import { NgClass, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
+import {
+  NgClass,
+  NgFor,
+  NgIf,
+  NgStyle,
+  isPlatformBrowser,
+} from '@angular/common';
 import {
   Component,
   PLATFORM_ID,
@@ -26,7 +32,7 @@ interface Keys {
 @Component({
   selector: 'app-key-list',
   standalone: true,
-  imports: [NgClass, NgIf, NgFor, FormsModule],
+  imports: [NgClass, NgIf, NgFor, NgStyle, FormsModule],
   templateUrl: './key-list.component.html',
   styleUrl: './key-list.component.css',
 })
