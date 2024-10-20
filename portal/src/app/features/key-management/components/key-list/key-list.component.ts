@@ -26,6 +26,8 @@ interface Keys {
   keyAlgorithm: string;
   keySize: number;
   keyOwner: string;
+  keyStatus: boolean;
+  keyState: number;
   keyCreatedOn: string;
 }
 
@@ -145,6 +147,8 @@ export class KeyListComponent implements AfterViewInit, OnDestroy {
               keyAlgorithm: keys.keyAlgorithm.toUpperCase(),
               keySize: keys.keySize,
               keyOwner: keys.keyOwner,
+              keyStatus: keys.keyStatus,
+              keyState: keys.keyState,
               keyCreatedOn: formattedDate,
             };
           });

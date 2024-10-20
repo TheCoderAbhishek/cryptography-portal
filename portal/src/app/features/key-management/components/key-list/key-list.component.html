@@ -91,6 +91,8 @@
             <th class="p-4 text-left text-gray-700 font-medium">
               Key Owner<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
             </th>
+            <th class="p-4 text-left text-gray-700 font-medium">Key Status</th>
+            <!-- <th class="p-4 text-left text-gray-700 font-medium">Key State</th> -->
             <th class="p-4 text-left text-gray-700 font-medium">
               Created On<i class="fa-solid fa-sort text-gray-700 ml-2"></i>
             </th>
@@ -162,6 +164,17 @@
               </span>
             </td>
             <td class="p-4 text-gray-600">{{ key.keyOwner }}</td>
+            <td class="p-4">
+              <span *ngIf="key.keyStatus; else inactive" class="text-green-500">
+                <i class="fa-regular fa-circle-check"></i>
+              </span>
+              <ng-template #inactive>
+                <span class="text-red-500">
+                  <i class="fa-regular fa-circle-xmark"></i>
+                </span>
+              </ng-template>
+            </td>
+            <!-- <td class="p-4 text-gray-600">{{ key.keyState }}</td> -->
             <td class="p-4 text-gray-600">{{ key.keyCreatedOn }}</td>
             <td class="p-4 flex space-x-2">
               <button
