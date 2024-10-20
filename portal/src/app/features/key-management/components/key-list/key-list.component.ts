@@ -30,6 +30,7 @@ interface Keys {
   keyStatus: boolean;
   keyState: number;
   keyCreatedOn: string;
+  keyUsage: string;
 }
 
 @Component({
@@ -163,6 +164,7 @@ export class KeyListComponent implements AfterViewInit, OnDestroy {
               keyStatus: keys.keyStatus,
               keyState: keys.keyState,
               keyCreatedOn: formattedDate,
+              keyUsage: keys.keyUsage,
             };
           });
 
